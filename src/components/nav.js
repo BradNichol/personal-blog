@@ -7,6 +7,7 @@ import MenuIcon from "@material-ui/icons/Menu"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 function NavigationBar() {
   const [open, setOpen] = useState(false)
@@ -41,6 +42,9 @@ function NavigationBar() {
         </Toolbar>
       </AppBar>
       <Drawer anchor={"left"} open={open}>
+      <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
         {drawerInfo}
       </Drawer>
     </>
