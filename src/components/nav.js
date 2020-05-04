@@ -8,6 +8,7 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import { Link } from "gatsby"
 
 function NavigationBar() {
   const [open, setOpen] = useState(false)
@@ -24,7 +25,7 @@ function NavigationBar() {
     <div>
       <List>
         {["Home", "Blog"].map(text => (
-          <ListItem button key={text}>
+          <ListItem button key={text} component={Link} to={text === 'Home' ? '/' : '/blog'}>
             <ListItemText primary={text} />
           </ListItem>
         ))}
