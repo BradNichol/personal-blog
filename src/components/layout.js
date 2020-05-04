@@ -1,6 +1,8 @@
 import React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
+import NavigationBar from "../components/nav"
+
 
 import { rhythm, scale } from "../utils/typography"
 
@@ -55,9 +57,11 @@ class Layout extends React.Component {
     }
     return (
       <Wrapper>
+        <NavigationBar />
         <div
           style={{
             marginLeft: `auto`,
+            marginTop: '20px',
             marginRight: `auto`,
             maxWidth: rhythm(24),
             padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
