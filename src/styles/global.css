@@ -8,7 +8,7 @@ body {
 }
 
 /* Page Headlines */
-h1, h2 {
+h1, h2, h3 {
     font-family: 'Raleway', sans-serif;
     font-size: 30px;
     padding-top: 5%;
