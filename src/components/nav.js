@@ -39,7 +39,7 @@ function NavigationBar() {
           <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerOpen}>
             <MenuIcon />
           </IconButton>
-          Bradley Nichol
+          BN
         </Toolbar>
       </AppBar>
       <Drawer anchor={"left"} open={open}>
