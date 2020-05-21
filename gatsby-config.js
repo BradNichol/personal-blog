@@ -72,7 +72,7 @@ module.exports = {
         short_name: `Brad's Blog`,
         start_url: `/`,
         background_color: `#ffffff`,
-        theme_color: '#373737',
+        theme_color: '#121212',
         display: `minimal-ui`,
         // edit below
         icon: `content/assets/gatsby-icon.png`,
