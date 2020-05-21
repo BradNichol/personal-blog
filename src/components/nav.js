@@ -34,7 +34,7 @@ function NavigationBar() {
   )
   return (
     <>
-      <AppBar position="fixed">
+      <AppBar style={{backgroundColor: '#373737'}} position="fixed">
         <Toolbar>
           <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerOpen}>
             <MenuIcon />
