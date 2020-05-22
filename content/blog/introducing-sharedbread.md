@@ -15,6 +15,8 @@ The presentation in the video below was created to showcase our skills and produ
 
 Live app can be seen here: <https://www.sharedbread.app/>
 
+P.S. Yes, I was nervous! This presentation was a culmination of an 18 month career transition journey into software development and it meant a lot to me :) 
+
 <iframe src="https://player.vimeo.com/video/421498710" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 
 ``
