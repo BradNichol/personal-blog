@@ -18,7 +18,7 @@ class IndexPage extends React.Component {
         
         <h2>Software Developer</h2>
         <p>Welcome to my personal blog which is
-          Currently under development. Check back  soon.
+          currently under development. Check back  soon.
         </p>
         <Link to="/blog/">
           <Button marginTop="35px">View Blog Posts</Button>
