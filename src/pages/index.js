@@ -16,12 +16,12 @@ class IndexPage extends React.Component {
           keywords={[`blog`, `gatsby`, `javascript`, `react`]}
         />
         
-        <p>Welcome to my personal blog.</p>
-        <p>
+        <h2>Software Developer</h2>
+        <p>Welcome to my personal blog which is
           Currently under development. Check back  soon.
         </p>
         <Link to="/blog/">
-          <Button marginTop="35px">Go to Blog</Button>
+          <Button marginTop="35px">View Blog Posts</Button>
         </Link>
       </Layout>
     )
