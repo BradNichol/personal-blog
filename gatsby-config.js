@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Bradley Nichol - Software Developer`,
+    title: ` Software Developer`,
     author: `Bradley Nichol`,
     description: `Personal blog of Bradley Nichol. A place to gather what I'm learning.`,
     siteUrl: `https://www.bradleynichol.co.uk`,
