@@ -15,7 +15,7 @@ class Blog extends React.Component {
 
     return (
       <Layout location={this.props.location} title={pageTitle}>
-        <SEO title="All posts" />
+        <SEO title={pageTitle + ' | Bradley Nichol'} />
         <Bio />
         <div style={{ margin: "20px 0 40px" }}>
           {posts.map(({ node }) => {
