@@ -23,7 +23,7 @@ function CarouselSlider() {
               {item.description}
             </CardContent>
             <CardActions>
-              <Button href={item.svn_url} size="small">Visit Repo</Button>
+              <Button href={item.svn_url} size="small" fullWidth="true" variant="outlined">Visit Repo</Button>
             </CardActions>
           </Card>
         )
