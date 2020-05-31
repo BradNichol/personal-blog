@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import Carousel from "react-material-ui-carousel"
 import Card from "@material-ui/core/Card"
-//import CardActions from "@material-ui/core/CardActions"
+import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
-// import Button from "@material-ui/core/Button"
+import Button from "@material-ui/core/Button"
 
 function CarouselSlider() {
   fetch("https://api.github.com/users/BradNichol/repos?type=all&sort=updated")
@@ -22,6 +22,9 @@ function CarouselSlider() {
               <hr />
               {item.description}
             </CardContent>
+            <CardActions>
+              <Button href={item.svn_url} size="small">Visit Repo</Button>
+            </CardActions>
           </Card>
         )
       })}
