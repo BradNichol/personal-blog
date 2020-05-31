@@ -6,36 +6,34 @@ import CardContent from "@material-ui/core/CardContent"
 // import Button from "@material-ui/core/Button"
 
 function CarouselSlider() {
-
-    fetch("https://api.github.com/users/BradNichol/repos?type=all&sort=updated")
-        .then((response) => response.json())
-        .then((data) => setItems(data))
-
+  fetch("https://api.github.com/users/BradNichol/repos?type=all&sort=updated")
+    .then(response => response.json())
+    .then(data => setItems(data))
 
   const [items, setItems] = useState([
-      {
-          title: 'Personal blog',
-          lastUpdated: "05-05-2020"
-      },
-      {
-        title: 'SharedBread',
-        lastUpdated: "028-05-2020"
-    }
-    ])
+    {
+      title: "Personal blog",
+      lastUpdated: "05-05-2020",
+    },
+    {
+      title: "SharedBread",
+      lastUpdated: "028-05-2020",
+    },
+  ])
 
   return (
-      <Carousel>
-          {items.map(item => {
-              return (
-                  <Card>
-                      <CardContent>
-                          {item.name}
-                          {item.description}
-                      </CardContent>
-                  </Card>
-              )
-          })}
-      </Carousel>
+    <Carousel>
+      {items.map(item => {
+        return (
+          <Card>
+            <CardContent>
+              {item.name}
+              {item.description}
+            </CardContent>
+          </Card>
+        )
+      })}
+    </Carousel>
   )
 }
 
