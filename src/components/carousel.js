@@ -18,7 +18,7 @@ function CarouselSlider() {
         return (
           <Card>
             <CardContent>
-              <h4>{item.name}</h4>
+              <h4 style={{marginTop: 0}}>{item.name}</h4>
               <hr />
               {item.description}
             </CardContent>
