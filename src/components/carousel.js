@@ -10,16 +10,7 @@ function CarouselSlider() {
     .then(response => response.json())
     .then(data => setItems(data))
 
-  const [items, setItems] = useState([
-    {
-      title: "Personal blog",
-      lastUpdated: "05-05-2020",
-    },
-    {
-      title: "SharedBread",
-      lastUpdated: "028-05-2020",
-    },
-  ])
+  const [items, setItems] = useState([])
 
   return (
     <Carousel>
