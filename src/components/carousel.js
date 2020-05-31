@@ -1,7 +1,8 @@
 import React from "react"
+import Carousel from "react-material-ui-carousel";
 
-function Carousel() {
+function CarouselSlider() {
   return <></>
 }
 
-export default Carousel
+export default CarouselSlider
