@@ -5,6 +5,10 @@ import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
 import Button from "@material-ui/core/Button"
 
+// required for webpack build. Native Fetch had issue
+const fetch = require('node-fetch');
+
+
 function CarouselSlider() {
   fetch("https://api.github.com/users/BradNichol/repos?type=all&sort=updated")
     .then(response => response.json())
