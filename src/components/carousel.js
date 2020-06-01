@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent"
 import Button from "@material-ui/core/Button"
 
 // required for webpack build. Native Fetch had issue
-const fetch = require('node-fetch');
+import fetch from "node-fetch";
 
 
 function CarouselSlider() {
