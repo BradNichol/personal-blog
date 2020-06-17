@@ -20,6 +20,9 @@ function TimelineComponent () {
                         <TimelineDot />
                         <TimelineConnector />
                     </TimelineSeparator>
+                    <TimelineContent>
+                        My coding journey began!
+                    </TimelineContent>
                 </TimelineItem>
             </Timeline>
         
