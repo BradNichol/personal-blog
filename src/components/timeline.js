@@ -9,7 +9,23 @@ import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 
 function TimelineComponent () {
 
-    return (<></>)
+    return (
+        <>
+            <Timeline align="alternate">
+                <TimelineItem>
+                    <TimelineOppositeContent>
+                        cheese
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                        <TimelineDot />
+                        <TimelineConnector />
+                    </TimelineSeparator>
+                </TimelineItem>
+            </Timeline>
+        
+        </>
+    
+    )
 }
 
 export default TimelineComponent
