@@ -27,6 +27,7 @@ class IndexPage extends React.Component {
         </Link>
         <h2>My Recent Repos</h2>
         <Carousel />
+        <Timeline />
       </Layout>
     )
   }
