@@ -5,6 +5,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Button from "../components/button"
 import Carousel from "../components/carousel";
+import Timeline from "../components/timeline";
 
 class IndexPage extends React.Component {
   render() {
