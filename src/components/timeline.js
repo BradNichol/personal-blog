@@ -14,7 +14,7 @@ function TimelineComponent () {
             <Timeline align="alternate">
                 <TimelineItem>
                     <TimelineOppositeContent>
-                        cheese
+                        2017
                     </TimelineOppositeContent>
                     <TimelineSeparator>
                         <TimelineDot />
