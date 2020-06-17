@@ -7,9 +7,9 @@ import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 
-function Timeline () {
+function TimelineComponent () {
 
     return (<></>)
 }
 
-export default Timeline
+export default TimelineComponent
