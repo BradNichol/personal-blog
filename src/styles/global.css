@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=family=Raleway:ital,wght@1,800&family=Source+Sans+Pro&display=swap');
 
 body {
-    background-color: #121212;
-    color: #B5B5B5;
+    background-color: #FFFFFF;
+    color: black;
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 /* Page Headlines */
@@ -12,8 +12,12 @@ h1, h2, h3 {
     font-family: 'Raleway', sans-serif;
     font-size: 30px;
     padding-top: 5%;
-    color: white;
+    color: #307ACC;
   }
+
+h1 {
+    font-size: 50px;
+}
 
 h4 {
     font-family: 'Raleway', sans-serif;
