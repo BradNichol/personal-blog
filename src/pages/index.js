@@ -29,7 +29,7 @@ class IndexPage extends React.Component {
           development. 
         </p>
         <p>
-          I'm sharing my thoughts, journey and whatever I'm learning here. 
+          I'm sharing my thoughts, journey and what I'm learning here. 
         </p>
         <p>
           Thanks for stopping by.
