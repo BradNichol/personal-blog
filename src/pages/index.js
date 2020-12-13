@@ -25,7 +25,7 @@ class IndexPage extends React.Component {
         </p>
         <p>
           In my past life I was a digital marketing professional for many years, and after 
-          two years of self-development I successfully transitioned into a software
+          two years of self-development I successfully transitioned into software
           development. 
         </p>
         <p>

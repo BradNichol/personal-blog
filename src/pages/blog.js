@@ -10,12 +10,11 @@ import Button from "../components/button"
 class Blog extends React.Component {
   render() {
     const { data } = this.props
-    const pageTitle = 'Blog'
     const posts = data.allMdx.edges
 
     return (
-      <Layout location={this.props.location} title={pageTitle}>
-        <SEO title={pageTitle + ' | Bradley Nichol'} />
+      <Layout location={this.props.location}>
+        <SEO title={'Blog' + ' | Bradley Nichol'} />
         <h1>Blog</h1>
         <Bio />
         <div style={{ margin: "20px 0 40px" }}>
