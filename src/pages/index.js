@@ -20,13 +20,13 @@ class IndexPage extends React.Component {
         
         <p>I'm a software developer based in Leyland, Lancashire,
           working for a FTSE100 company in the automotive industry. I predominately
-          work on backend systems using Java, with a sprinkle of frontend Angular work for 
+          work on backend systems using Java, with careera sprinkle of Angular frontend work for 
           internal tools.
         </p>
         <p>
-          In my past life I was a digital marketing professional for many years, and after
-          nearly two years of self-development I successfully transitioned into a software
-          development career. 
+          In my past life I was a digital marketing professional for many years, and after 
+          two years of self-development I successfully transitioned into a software
+          development. 
         </p>
         <p>
           I'm sharing my thoughts, journey and whatever I'm learning here. 
