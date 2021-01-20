@@ -24,8 +24,8 @@ class IndexPage extends React.Component {
           internal tools.
         </p>
         <p>
-          In my past life I was a digital marketing professional for many years, and after 
-          two years of self-development I successfully transitioned into software
+          In my past life I was a digital marketing professional, and after 
+          two years of self-development I transitioned into a career in software
           development. 
         </p>
         <p>
