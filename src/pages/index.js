@@ -16,7 +16,7 @@ class IndexPage extends React.Component {
           title={siteTitle}
           keywords={[`blog`, `gatsby`, `javascript`, `react`]}
         />
-        <h1>Hi, I'm Bradley Nichol</h1>
+        <h1>Hi, I'm Bradley Nichol 👋</h1>
         
         <p>I'm a software developer based in Leyland, Lancashire,
           working for a FTSE100 company in the automotive industry. I predominately
