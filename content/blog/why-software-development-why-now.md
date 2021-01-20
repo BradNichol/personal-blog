@@ -3,6 +3,7 @@ path: why-now
 date: 2020-05-03T20:56:17.435Z
 title: Why Software Development, Why Now?
 description: A not so quick overview for my desire to become a dev.
+categories: ["Personal"]
 ---
 ## **Early Years**
 

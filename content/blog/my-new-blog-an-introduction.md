@@ -3,6 +3,7 @@ path: my-blog-introduction
 date: 2020-04-13T13:11:03.558Z
 title: My New Blog - An Introduction
 description: An overview of what this blog is all about.
+categories: ["Personal"]
 ---
 Hi,
 

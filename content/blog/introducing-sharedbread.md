@@ -4,6 +4,7 @@ date: 2020-05-22T12:04:33.680Z
 title: Introducing Sharedbread
 description: "Video: Take a look at what we developed for our final group
   project at Tech Returners. "
+categories: ["Projects"]
 ---
 This is the first time that I will have mentioned Tech Returners on this blog. TR is a bootcamp course that I'm currently attending and I'll be talking all about the great experience that I have had with them in upcoming blogs.
 
