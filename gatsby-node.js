@@ -19,7 +19,7 @@ exports.createPages = ({ graphql, actions }) => {
               }
               frontmatter {
                 title
-                categories
+                category
               }
             }
           }
@@ -53,7 +53,7 @@ exports.createPages = ({ graphql, actions }) => {
 
     const categoriesFound = []
     posts.forEach(post => {
-      post.node.frontmatter.categories.forEach(category => {
+      post.node.frontmatter.category.forEach(category => {
         if (categoriesFound.indexOf(category) === -1) {
           categoriesFound.push(category)
         }
@@ -69,7 +69,7 @@ exports.createPages = ({ graphql, actions }) => {
         path: `category/${category}`,
         component: path.resolve("./src/templates/category-page.js"),
         context: {
-          categories: category,
+          category: category,
         },
       })
     })

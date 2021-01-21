@@ -1,30 +1,52 @@
-import React from 'react';
-import { graphql } from 'gatsby';
-import Layout from '../components/layout';
+import React from "react"
+import { Link, graphql } from "gatsby"
+import Layout from "../components/layout"
+import { rhythm } from "../utils/typography"
 
 export default ({ data, pageContext }) => {
-  const posts = data.allMdx.nodes;
-  const categories = pageContext.categories;
+  const posts = data.allMdx.nodes
+  const category = pageContext.category
   return (
     <Layout location={data.location}>
-
-    
-      <h1>{categories}</h1>
+      <h1>{category}</h1>
       {posts.map(post => (
-        <h3>{post.frontmatter.title}</h3>
+        <div key={post.fields.slug}>
+        <h3
+          style={{
+            marginBottom: rhythm(1 / 4),
+          }}
+        >
+          <Link
+            style={{ boxShadow: `none` }}
+            to={`blog${post.fields.slug}`}
+          >
+            {post.frontmatter.title}
+          </Link>
+        </h3>
+        <small>{post.frontmatter.date}</small>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: post.frontmatter.description || post.excerpt,
+          }}
+        />
+      </div>
       ))}
     </Layout>
-  );
-};
+  )
+}
 export const query = graphql`
-  query CategoryPage($categories: String!) {
-    allMdx(filter: { frontmatter: { categories: { eq: $categories } } }) {
+  query CategoryPage($category: String!) {
+    allMdx(filter: { frontmatter: { category: { eq: $category } } }) {
       nodes {
+        excerpt
+        fields {
+          slug
+        }
         frontmatter {
           title
-          categories
+          date(formatString: "MMMM DD, YYYY")
         }
       }
     }
   }
-`;
+`
