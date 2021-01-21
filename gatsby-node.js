@@ -66,8 +66,9 @@ exports.createPages = ({ graphql, actions }) => {
     // TODO: need to de-dupe potentially and consider lowercasing the slug.
 
     categoriesFound.forEach(category => {
+      const slug = slugify(category);
       createPage({
-        path: `category/${category}`,
+        path: `category/${slug.toLowerCase()}`,
         component: path.resolve("./src/templates/category-page.js"),
         context: {
           category: category,
