@@ -37,8 +37,6 @@ class IndexPage extends React.Component {
         <Link to="/blog/">
           <Button marginTop="35px">View Blog Posts</Button>
         </Link>
-        <h2>My Recent Repos</h2>
-        <Carousel />
       </Layout>
     )
   }
