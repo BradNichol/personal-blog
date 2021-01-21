@@ -50,7 +50,7 @@ exports.createPages = ({ graphql, actions }) => {
       })
     })
 
-    // collect the encountered categories
+    // collect categories
 
     const categoriesFound = []
     posts.forEach(post => {
@@ -62,10 +62,8 @@ exports.createPages = ({ graphql, actions }) => {
     })
 
     // create a page for each category
-
-    // TODO: need to de-dupe potentially and consider lowercasing the slug.
-
-    categoriesFound.forEach(category => {
+    const categories = [...new Set(categoriesFound)]
+    categories.forEach(category => {
       const slug = slugify(category);
       createPage({
         path: `category/${slug.toLowerCase()}`,
