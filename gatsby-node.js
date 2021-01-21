@@ -53,23 +53,23 @@ exports.createPages = ({ graphql, actions }) => {
 
     const categoriesFound = []
     posts.forEach(post => {
-      post.node.frontmatter.categories.forEach(cat => {
-        if (categoriesFound.indexOf(cat) === -1) {
-          categoriesFound.push(cat)
+      post.node.frontmatter.categories.forEach(category => {
+        if (categoriesFound.indexOf(category) === -1) {
+          categoriesFound.push(category)
         }
       })
     })
 
     // create a page for each category
 
-    // need to de-dupe potentially and consider lowercasing the slug.
+    // TODO: need to de-dupe potentially and consider lowercasing the slug.
 
-    categoriesFound.forEach(cat => {
+    categoriesFound.forEach(category => {
       createPage({
-        path: `category/${cat}`,
+        path: `category/${category}`,
         component: path.resolve("./src/templates/category-page.js"),
         context: {
-          categories: cat,
+          categories: category,
         },
       })
     })
