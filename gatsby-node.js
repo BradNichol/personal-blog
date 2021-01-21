@@ -62,6 +62,8 @@ exports.createPages = ({ graphql, actions }) => {
 
     // create a page for each category
 
+    // need to de-dupe potentially and consider lowercasing the slug.
+
     categoriesFound.forEach(cat => {
       createPage({
         path: `category/${cat}`,
