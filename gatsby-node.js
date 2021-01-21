@@ -19,6 +19,7 @@ exports.createPages = ({ graphql, actions }) => {
               }
               frontmatter {
                 title
+                categories
               }
             }
           }
@@ -48,6 +49,29 @@ exports.createPages = ({ graphql, actions }) => {
       })
     })
 
+    // collect the encountered categories
+
+    const categoriesFound = []
+    posts.forEach(post => {
+      post.node.frontmatter.categories.forEach(cat => {
+        if (categoriesFound.indexOf(cat) === -1) {
+          categoriesFound.push(cat)
+        }
+      })
+    })
+
+    // create a page for each category
+
+    categoriesFound.forEach(cat => {
+      createPage({
+        path: `category/${cat}`,
+        component: path.resolve("./src/templates/category-page.js"),
+        context: {
+          categories: cat,
+        },
+      })
+    })
+
     return null
   })
 }
@@ -55,10 +79,10 @@ exports.createPages = ({ graphql, actions }) => {
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
-  if (node.internal.type === `Mdx`) {
+  if (node.internal.type === "Mdx") {
     const value = createFilePath({ node, getNode })
     createNodeField({
-      name: `slug`,
+      name: "slug",
       node,
       value,
     })
