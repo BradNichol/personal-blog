@@ -8,6 +8,10 @@ module.exports = {
         '144': '36rem',
       },
     },
+    fontFamily: {
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+    },
   },
   variants: {
     extend: {},
