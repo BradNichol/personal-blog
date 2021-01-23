@@ -45,6 +45,7 @@
     "tailwindcss": "^2.0.2",
     "typeface-merriweather": "0.0.72",
     "typeface-montserrat": "0.0.54",
+    "typeface-raleway": "^1.1.13",
     "typography": "^0.16.19",
     "typography-theme-wordpress-2016": "^0.16.19"
   },
