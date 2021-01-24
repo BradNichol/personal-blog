@@ -4,7 +4,8 @@ date: 2021-01-24T13:08:44.405Z
 title: My 2021 Career Update
 description: My last post in 2020 discussed my journey to become a software
   developer. Read on to see if I achieved this goal?
-category: ["Personal"]
+category:
+  - Personal
 ---
 Last May, I published a blog post about why I wanted to change careers into software development. I mainly wrote that post to see for myself the journey that I've been on, and to provide any potential employers with some context around my desire.
 
@@ -20,11 +21,15 @@ I ended the post with the following statements:
 
 So, did I make it? Did I achieve my goal?
 
+
+
 ### Drum roll please.....🥁
 
 I am pleased to say that YES, I achieved my goal. In August last year, I officially became a software developer for Auto Trader, the UK's largest marketplace for new and used vehicles.
 
-When I started this journey, I never thought that I would be working for such an exceptional tech-based company, especially for my first developer role, and even more so during a pandemic. My team is fantastic, and everyday I get to work with professional, senior and principal level developers. I really lucked out on this one. 
+When I started this journey, I never thought that I would be working for such an exceptional tech-based company, especially for my first developer role, and even more so during a pandemic. My team is fantastic, and every day I get to work with professional, senior and principal level developers. I really lucked out on this one. 
+
+
 
 ### What's next?
 
