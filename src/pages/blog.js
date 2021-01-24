@@ -21,7 +21,7 @@ class Blog extends React.Component {
             const title = node.frontmatter.title || node.fields.slug
             return (
               <div key={node.fields.slug}>
-                <h3 className="pt-12">
+                <h3 className="pt-20">
                   <Link
                     style={{ boxShadow: `none` }}
                     to={`blog${node.fields.slug}`}
