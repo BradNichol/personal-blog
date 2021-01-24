@@ -3,7 +3,8 @@ path: why-now
 date: 2020-05-03T20:56:17.435Z
 title: Why Software Development, Why Now?
 description: A not so quick overview for my desire to become a dev.
-category: ["Personal"]
+category:
+  - Personal
 ---
 ## **Early Years**
 
@@ -17,7 +18,7 @@ After figuring out how to ‘surf’ the internet on our first computer I was ho
 
 Back then, after searching and clicking around AOL and Altasvita for many hours, I pulled enough info together to create basic websites myself using good old Notepad.
 
-I can still remember how they looked: classic 3 panel layout; left nav, header and central content with a scroll bar.
+I can still remember how they looked: classic 3-panel layout; left nav, header and central content with a scroll bar.
 
 I was not aware of CSS as it had just launched, so styling was provided directly in HTML and the layouts were developed using HTML tables and frames. The golden age!
 
@@ -33,7 +34,7 @@ After leaving University, I’ve been on a career journey that has kept itself a
 
 During my time running a business, I learnt a lot about SEO (search engine optimisation) and other online marketing skills. I found that online marketing allowed me to continue working on websites, growing them and testing out new ideas quickly.
 
-I further developed my skills in this area and obtained a Diploma Digital Marketing.
+I further developed my skills in this area and obtained a Diploma in Digital Marketing.
 
 Over the years I had worked on two large eCommerce projects for my employers at the time. Both times I had project managed these from start to finish, developing the specifications and hiring development agencies.
 
@@ -43,7 +44,7 @@ After the web projects were finished, it was up to me to continue growing them. 
 
 Hours could go by while I was trying to understand a piece of code, and once I figured it out, it felt amazing!
 
-I often looked into pursing a career in software/web in my early-to-mid twenties, but I held myself back from limiting beliefs. These beliefs included the requirement of a degree in development or that I needed to be great at mathematics.
+I often looked into pursuing a career in software/web in my early-to-mid twenties, but I held myself back from limiting beliefs. These beliefs included the requirement of a degree in development or that I needed to be great at mathematics.
 
 A few more years went by and I was steadily growing my career in digital marketing, along with my income when the thought of changing careers became more distant thinking. This was even more so after proposing and buying a house. I probably wouldn’t be married now if I’d spent all of my time re-training back then, and I wasn’t in the position to potentially move careers and take a pay cut.
 
@@ -63,4 +64,4 @@ This was December 2018. My initial plan was to find some online courses and stic
 
 **Am I close? Hell yeah!**
 
-Find out more about my coding journey in my next post.
+**[My 2021 Career Update](https://www.bradleynichol.co.uk/blog/my-2021-career-update/)**
