@@ -9,7 +9,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
+      sans: ['Source Sans Pro', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
     },
   },
