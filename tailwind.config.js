@@ -3,10 +3,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      spacing: {
-        '128': '32rem',
-        '144': '36rem',
-      },
+      spacing: {},
     },
     fontFamily: {
       sans: ['Source Sans Pro', 'sans-serif'],

@@ -13,7 +13,8 @@
       text-blue-800;
     }
     p {
-      @apply text-xl 
+      @apply text-xl
+      pt-10 
       leading-normal;
     }
   }
