@@ -13,7 +13,7 @@ class Blog extends React.Component {
 
     return (
       <Layout location={this.props.location}>
-        <SEO title={'Blog' + ' | Bradley Nichol'} />
+        <SEO title={"Blog" + " | Bradley Nichol"} />
         <h1>Blog</h1>
         <Bio />
         <div>
@@ -29,8 +29,11 @@ class Blog extends React.Component {
                     {title}
                   </Link>
                 </h3>
-                <small>{node.frontmatter.date}</small>
-                <p className="pt-1"
+                <div className="flex">
+                  <small>{node.frontmatter.date}<span> : {node.frontmatter.category}</span></small>
+                </div>
+                <p
+                  className="pt-1"
                   dangerouslySetInnerHTML={{
                     __html: node.frontmatter.description || node.excerpt,
                   }}
@@ -67,6 +70,7 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            category
           }
         }
       }
