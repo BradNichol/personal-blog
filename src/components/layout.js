@@ -2,7 +2,6 @@ import React from "react"
 import styled from "styled-components"
 import NavigationBar from "../components/nav"
 
-
 import { rhythm, scale } from "../utils/typography"
 
 class Layout extends React.Component {
@@ -10,10 +9,9 @@ class Layout extends React.Component {
     const { location, title, children } = this.props
     const rootPath = `${__PATH_PREFIX__}/`
     const blogPath = `${__PATH_PREFIX__}/blog/`
-    
+
     return (
-      <Wrapper>
-        <NavigationBar />
+      <>
         <div
           style={{
             marginLeft: `auto`,
@@ -22,6 +20,8 @@ class Layout extends React.Component {
             padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
           }}
         >
+          <NavigationBar />
+
           <main>{children}</main>
         </div>
         <Footer>
@@ -29,14 +29,10 @@ class Layout extends React.Component {
           {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </Footer>
-      </Wrapper>
+      </>
     )
   }
 }
-
-const Wrapper = styled.div`
-  min-height: 100vh;
-`
 
 const Footer = styled.footer`
   text-align: center;

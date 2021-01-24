@@ -1,25 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=family=Raleway:ital,wght@1,800&family=Source+Sans+Pro&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-    background-color: #FFFFFF;
-    color: black;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 22px;
-}
-
-/* Page Headlines */
-h1, h2, h3 {
-    font-family: 'Raleway', sans-serif;
-    font-size: 30px;
-    padding-top: 5%;
-    color: #307ACC;
+@layer base {
+    h1 {
+      @apply text-5xl
+      font-bold
+      text-blue-500;
+    }
+    h2, h3 {
+      @apply text-3xl
+      font-sans
+      font-semibold
+      text-blue-400;
+    }
+    p {
+      @apply text-xl
+      pt-10 
+      leading-normal;
+    }
   }
 
-h1 {
-    font-size: 50px;
-}
 
-h4 {
-    font-family: 'Raleway', sans-serif;
-    font-size: 20px;
-}
+  
