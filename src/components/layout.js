@@ -12,10 +12,10 @@ class Layout extends React.Component {
     const blogPath = `${__PATH_PREFIX__}/blog/`
     
     return (
-      <Wrapper>
+      <>
         <NavigationBar />
         <div
-          style={{
+          style={{  
             marginLeft: `auto`,
             marginRight: `auto`,
             maxWidth: rhythm(30),
@@ -29,14 +29,11 @@ class Layout extends React.Component {
           {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </Footer>
-      </Wrapper>
+      </>
     )
   }
 }
 
-const Wrapper = styled.div`
-  min-height: 100vh;
-`
 
 const Footer = styled.footer`
   text-align: center;
