@@ -34,7 +34,7 @@ function Bio() {
                 borderRadius: `50%`,
               }}
             />
-            <p>
+            <p className="pt-5">
               Written by <strong>{author}</strong>
               {` `}
               <a href={`https://twitter.com/${social.twitter}`}>
