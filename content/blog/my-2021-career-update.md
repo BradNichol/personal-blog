@@ -4,6 +4,7 @@ date: 2021-01-24T13:08:44.405Z
 title: My 2021 Career Update
 description: My last post in 2020 discussed my journey to become a software
   developer. Read on to see if I achieved this goal?
+category: ["Personal"]
 ---
 Last May, I published a blog post about why I wanted to change careers into software development. I mainly wrote that post to see for myself the journey that I've been on, and to provide any potential employers with some context around my desire.
 
