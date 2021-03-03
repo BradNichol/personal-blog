@@ -1,7 +1,7 @@
 ---
 path: intellij-productivity
 date: 2021-03-03T09:44:14.374Z
-title: Increase Your Intellij Productivity By With Shortcuts
+title: Increase Your Intellij Productivity With Shortcuts
 description: My list of the most useful shortcuts to improve your productivity in Intellij
 category: Productivity
 ---
@@ -22,3 +22,11 @@ Need to commit a recent code change but you don't know the shortcut? Use the fin
 ![search-actions-menu](assets/screenshot-2021-03-03-at-14.31.08.png "Search Actions Shortcut Menu")
 
 ## Search Everywhere
+
+To search everything and anything within Intellij, whether it's an action, class or file etc, you can use the search everywhere tool by pressing shift ⇧ twice.
+
+You'll notice it's the same menu that we've seen previously so should you need to filter down the results, use the various menu tabs to do this.
+
+**TIP:** Use the prefix of the required words you're searching for. For example, if you're searching for a class called ProductServiceImp, use 'psi' to filter the results faster.
+
+![search-all-menu](assets/screenshot-2021-03-03-at-19.07.33.png "Search all")
