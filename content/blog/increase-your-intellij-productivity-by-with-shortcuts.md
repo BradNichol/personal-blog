@@ -3,7 +3,7 @@ path: intellij-productivity
 date: 2021-03-03T09:44:14.374Z
 title: Increase Your Intellij Productivity With Shortcuts
 description: My list of the most useful shortcuts to improve your productivity in Intellij
-category: List [ "Productivity" ]
+category: '"Productivity"'
 ---
 ## Context Actions
 
