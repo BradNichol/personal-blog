@@ -30,3 +30,15 @@ You'll notice it's the same menu that we've seen previously so should you need t
 **TIP:** Use the prefix of the required words you're searching for. For example, if you're searching for a class called ProductServiceImp, use 'psi' to filter the results faster.
 
 ![search-all-menu](assets/screenshot-2021-03-03-at-19.07.33.png "Search all")
+
+
+
+## Basic Completion
+
+Intellij will recommend a set of code completions whenever you're typing. However, you can also trigger the code completion/suggestions window by pressing control ⌃ + space. This is especially useful for argument suggestions. Place the cursor inside the parenthesis and use ⌃ + space for recommendations. Once chosen, complete any code suggestion by pressing ⌘⇧↵.
+
+## Expand Code Selection
+
+You can select chunks of code by expanding the selection from where your cursor is placed. Useful for selecting a whole word, or code block with ease. Press ⌥ + ↑. Deselect by using the down arrow.
+
+![](assets/codeselection.gif)
