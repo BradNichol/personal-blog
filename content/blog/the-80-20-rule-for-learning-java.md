@@ -2,7 +2,9 @@
 path: 80-20-learning-java
 date: 2021-10-10T15:24:05.252Z
 title: The 80/20 Rule For Learning Productive, Production Ready Java
-description: 80/20 rule for Java
+description: This post is an overview of my personal experience learning Java
+  and the parts of the language that are used within the Enterprise level code
+  bases I develop on.
 category:
   - Java Development
 ---
