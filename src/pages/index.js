@@ -34,9 +34,9 @@ class IndexPage extends React.Component {
         <p>
           Thanks for stopping by.
         </p>
-        <Link to="/blog/">
+        {/* <Link to="/blog/">
           <Button marginTop="35px">View Blog Posts</Button>
-        </Link>
+        </Link> */}
       </Layout>
     )
   }
