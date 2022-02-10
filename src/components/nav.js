@@ -12,9 +12,9 @@ function NavigationBar() {
           <li className="pr-5">
             <Link to="/">Home</Link>
           </li>
-          <li className="pr-5">
+          {/* <li className="pr-5">
             <Link to="/blog">Blog</Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </>
