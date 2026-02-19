@@ -10,35 +10,31 @@ class IndexPage extends React.Component {
       <Layout location={this.props.location}>
         <SEO
           title={siteTitle}
-          keywords={[`blog`, `gatsby`, `javascript`, `react`]}
+          keywords={[`java`, `software engineering`, `clean code`]}
         />
         <h1>Hi, I'm Bradley Nichol</h1>
 
         <p>
           <strong>
-            Senior Backend Engineer. Pragmatic Builder. Clean Code Advocate.
+            Senior Backend Engineer. Pragmatic Builder. Clean Code Janitor 🧹.
           </strong>
         </p>
         <p>
-          I'm a career changer turned senior Java developer in a FTSE 100
-          environment. No formal CS background. Six years of building and
-          shipping features inside large enterprise systems, working across
-          backend services and data-focused engineering teams.
+          I’m a career changer turned Senior Java Developer in a FTSE 100 company. I don't have a CS degree, but I do have six years of battle scars 
+          from shipping features inside an enterprise machine. I've survived both the backend trenches and the data engineering wild west.
         </p>
         <p>
-          I care deeply about clean architecture, readable code, and strong guard
-          rails. Slop -- human or AI -- isn't acceptable. Discipline still
-          matters.
-        </p>
+        I have an affection for clean architecture and other guard rails. 'Slop'—whether hand-cranked by human or by Mr Robot, is a no!         </p>
         <p>
           I'm not a coding savant and I don't aspire to be one. I enjoy building
           useful features that fit coherently into larger systems. Structure,
           clarity, and long-term maintainability are what interest me.
+          An investigation ticket, yes please!
         </p>
         <p>
-          Recently I've been exploring agentic development and modern AI tooling
-          in real production contexts. Not chasing hype. Not replacing
-          engineering judgment. Using AI as an amplifier -- not a shortcut.
+          Recently I've been exploring agentic development (big up to Codex!) and AI tooling
+          in personal projects. Trying not to chase hype. Not replacing
+          engineering judgment. Leveraging AI as an amplifier -- not a shortcut.
         </p>
       </Layout>
     )
