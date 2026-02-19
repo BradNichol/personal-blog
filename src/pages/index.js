@@ -1,10 +1,6 @@
 import React from "react"
-import { Link } from "gatsby"
-
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Button from "../components/button"
-import Carousel from "../components/carousel";
 
 class IndexPage extends React.Component {
   render() {
@@ -16,27 +12,34 @@ class IndexPage extends React.Component {
           title={siteTitle}
           keywords={[`blog`, `gatsby`, `javascript`, `react`]}
         />
-        <h1>Hi, I'm Bradley Nichol 👋</h1>
-        
-        <p>I'm a software developer based in Leyland, Lancashire,
-          working for a FTSE100 company in the automotive industry. I predominately
-          work on backend systems using Java, with a sprinkle of Angular frontend work for 
-          internal tools.
+        <h1>Hi, I'm Bradley Nichol</h1>
+
+        <p>
+          <strong>
+            Senior Backend Engineer. Pragmatic Builder. Clean Code Advocate.
+          </strong>
         </p>
         <p>
-          In my past life I was a digital marketing professional, and after 
-          two years of self-development I transitioned into a career in software
-          development. 
+          I'm a career changer turned senior Java developer in a FTSE 100
+          environment. No formal CS background. Six years of building and
+          shipping features inside large enterprise systems, working across
+          backend services and data-focused engineering teams.
         </p>
         <p>
-          I'm sharing my thoughts, journey and what I'm learning here. 
+          I care deeply about clean architecture, readable code, and strong guard
+          rails. Slop -- human or AI -- isn't acceptable. Discipline still
+          matters.
         </p>
         <p>
-          Thanks for stopping by.
+          I'm not a coding savant and I don't aspire to be one. I enjoy building
+          useful features that fit coherently into larger systems. Structure,
+          clarity, and long-term maintainability are what interest me.
         </p>
-        {/* <Link to="/blog/">
-          <Button marginTop="35px">View Blog Posts</Button>
-        </Link> */}
+        <p>
+          Recently I've been exploring agentic development and modern AI tooling
+          in real production contexts. Not chasing hype. Not replacing
+          engineering judgment. Using AI as an amplifier -- not a shortcut.
+        </p>
       </Layout>
     )
   }
