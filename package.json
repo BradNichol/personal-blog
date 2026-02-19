@@ -52,6 +52,9 @@
   "devDependencies": {
     "prettier": "^1.17.0"
   },
+  "overrides": {
+    "node-gyp": "^9.4.0"
+  },
   "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
   "keywords": [
     "gatsby"
