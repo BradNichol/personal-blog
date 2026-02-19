@@ -24,7 +24,8 @@ class IndexPage extends React.Component {
           from shipping features inside an enterprise machine. I've survived both the backend trenches and the data engineering wild west.
         </p>
         <p>
-        I have an affection for clean architecture and other guard rails. 'Slop'—whether hand-cranked by human or by Mr Robot, is a no!         </p>
+        I have an affection for clean architecture and other guard rails. 'Slop'—whether hand-cranked by human or by Mr Robot, is a no!
+        </p>
         <p>
           I'm not a coding savant and I don't aspire to be one. I enjoy building
           useful features that fit coherently into larger systems. Structure,
