@@ -7,7 +7,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.13",
     "@material-ui/icons": "^4.9.1",
-    "@mdx-js/mdx": "^Firsrt1.5.1",
+    "@mdx-js/mdx": "^1.5.1",
     "@mdx-js/react": "^1.5.1",
     "autoprefixer": "^10.2.3",
     "babel-plugin-styled-components": "^1.10.0",
