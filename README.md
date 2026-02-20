@@ -1,9 +1,9 @@
-## Personal Blog
+## Personal Site
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d1b3d829-d647-4c44-9ca3-fb9c20819257/deploy-status)](https://app.netlify.com/sites/sharp-meninsky-4bafef/deploys)
+Minimal static site with a home page and contact page. No build step.
 
+### Local preview
 
-Always in development....
-
-
-Built on the Gatsby framework.
+```bash
+python3 -m http.server --directory public
+```
