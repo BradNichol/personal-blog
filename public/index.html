@@ -58,7 +58,33 @@
             shortcut.
           </p>
         </section>
+
+        <section
+          class="activity-section reveal delay-2"
+          id="recent-work"
+          aria-labelledby="recent-work-title"
+        >
+          <div class="activity-heading">
+            <div class="activity-heading-copy">
+              <p class="eyebrow">Recent work</p>
+              <h2 class="section-title" id="recent-work-title">
+                What I’ve been building lately.
+              </h2>
+              <p>
+                A selective view of recent engineering themes, kept deliberately
+                above the level of private product detail.
+              </p>
+            </div>
+            <time class="activity-updated" data-recent-work-updated></time>
+          </div>
+
+          <div aria-live="polite" data-recent-work>
+            <p class="activity-empty">Loading recent work…</p>
+          </div>
+        </section>
       </main>
     </div>
+
+    <script type="module" src="/scripts/recent-work.js"></script>
   </body>
 </html>

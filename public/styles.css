@@ -115,10 +115,123 @@ body::before {
   margin-bottom: 0;
 }
 
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font: 600 0.75rem/1.25 "Source Sans 3", sans-serif;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
 .section-title {
   font-family: "Fraunces", serif;
   font-size: 1.6rem;
   margin-bottom: 12px;
+}
+
+.activity-section {
+  margin-top: 56px;
+}
+
+.activity-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.activity-heading-copy {
+  max-width: 620px;
+}
+
+.activity-heading-copy .section-title {
+  margin: 0;
+}
+
+.activity-heading-copy > p:last-child {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 1.03rem;
+}
+
+.activity-updated {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font: 600 0.72rem/1.4 "Source Sans 3", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.activity-list {
+  border-top: 1px solid var(--line);
+}
+
+.activity-item {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 28px;
+  padding: 24px 0 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.activity-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding-top: 4px;
+  color: var(--muted);
+  font: 600 0.72rem/1.35 "Source Sans 3", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.activity-meta .date {
+  color: var(--ink);
+}
+
+.activity-meta .kind {
+  color: var(--accent);
+}
+
+.activity-item h3 {
+  margin: 0;
+  font: 600 1.3rem/1.25 "Fraunces", serif;
+  letter-spacing: -0.015em;
+}
+
+.activity-summary {
+  max-width: 650px;
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 13px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: var(--accent);
+  background: rgba(29, 92, 99, 0.1);
+  font: 600 0.72rem/1.2 "Source Sans 3", sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.activity-empty {
+  margin: 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
 }
 
 .contact-card {
@@ -195,6 +308,25 @@ body::before {
 
   .hero {
     padding: 28px;
+  }
+
+  .activity-heading {
+    display: block;
+  }
+
+  .activity-updated {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .activity-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .activity-meta {
+    flex-direction: row;
+    gap: 8px 12px;
   }
 }
 
