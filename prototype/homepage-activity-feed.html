@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bradley Nichol — Homepage prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f7f1e8;
+        --paper: #fff8ee;
+        --paper-strong: #fffdf8;
+        --ink: #1f1b16;
+        --muted: #5f564d;
+        --accent: #1d5c63;
+        --accent-soft: #e3efed;
+        --coral: #c96a4a;
+        --line: rgba(31, 27, 22, 0.13);
+        --shadow: 0 18px 42px rgba(31, 27, 22, 0.08);
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background:
+          radial-gradient(1200px 650px at 6% -10%, rgba(201, 106, 74, 0.19), transparent 60%),
+          radial-gradient(920px 560px at 112% 8%, rgba(29, 92, 99, 0.17), transparent 58%),
+          linear-gradient(180deg, #f8f2ea 0%, #f3ede4 100%);
+        font-family: "Source Sans 3", sans-serif;
+        line-height: 1.65;
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image:
+          radial-gradient(rgba(31, 27, 22, 0.04) 1px, transparent 1px),
+          radial-gradient(rgba(31, 27, 22, 0.03) 1px, transparent 1px);
+        background-position: 0 0, 12px 12px;
+        background-size: 22px 22px, 45px 45px;
+        content: "";
+        pointer-events: none;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button {
+        border: 0;
+        color: inherit;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid rgba(29, 92, 99, 0.38);
+        outline-offset: 4px;
+      }
+
+      .page {
+        width: min(1040px, calc(100% - 44px));
+        margin: 0 auto;
+        padding: 46px 0 132px;
+      }
+
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        color: var(--ink);
+        font: 700 1.28rem/1 "Fraunces", Georgia, serif;
+        letter-spacing: 0.01em;
+        text-decoration: none;
+      }
+
+      .nav-link {
+        position: relative;
+        padding-bottom: 5px;
+        color: var(--ink);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .nav-link::after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        background: var(--accent);
+        content: "";
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-link:hover::after,
+      .nav-link:focus-visible::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: var(--accent);
+        font: 700 0.72rem/1.25 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .hero-title,
+      .section-title,
+      .feature-title {
+        margin: 0;
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 1.13;
+      }
+
+      .hero-title {
+        max-width: 740px;
+        font-size: clamp(2.55rem, 6vw, 5.15rem);
+      }
+
+      .section-title {
+        font-size: clamp(1.85rem, 3vw, 2.7rem);
+      }
+
+      .feature-title {
+        font-size: clamp(2.2rem, 4vw, 3.7rem);
+      }
+
+      .hero-copy {
+        max-width: 690px;
+        color: var(--muted);
+        font-size: 1.07rem;
+      }
+
+      .hero-copy p + p {
+        margin-top: 16px;
+      }
+
+      .hero-copy strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+      }
+
+      .quiet-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--ink);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: border-color 0.18s ease, transform 0.18s ease;
+      }
+
+      .quiet-link:hover,
+      .quiet-link:focus-visible {
+        border-color: rgba(29, 92, 99, 0.48);
+        transform: translateY(-1px);
+      }
+
+      .activity-section {
+        margin-top: 58px;
+      }
+
+      .activity-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+
+      .activity-heading-copy {
+        max-width: 520px;
+      }
+
+      .activity-heading-copy p:last-child {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+
+      .activity-updated {
+        flex: 0 0 auto;
+        color: var(--muted);
+        font: 0.72rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .activity-item {
+        position: relative;
+      }
+
+      .activity-item h3 {
+        margin: 0;
+        font: 700 1.28rem/1.25 "Fraunces", Georgia, serif;
+        letter-spacing: -0.015em;
+      }
+
+      .activity-summary {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      .activity-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 12px;
+        color: var(--muted);
+        font: 0.72rem/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .activity-meta .kind {
+        color: var(--accent);
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 24px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        color: var(--accent);
+        background: var(--accent-soft);
+        font: 0.72rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .prototype-note {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 20;
+        padding: 7px 10px;
+        border: 1px solid rgba(29, 92, 99, 0.18);
+        border-radius: 999px;
+        color: var(--accent);
+        background: rgba(255, 248, 238, 0.86);
+        box-shadow: 0 6px 18px rgba(31, 27, 22, 0.05);
+        font: 700 0.65rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      /* Variant A: an editorial journal stream. */
+      .variant-a .hero {
+        padding-top: 78px;
+      }
+
+      .variant-a .hero-copy {
+        margin-top: 28px;
+      }
+
+      .variant-a .activity-list {
+        border-top: 1px solid var(--line);
+      }
+
+      .variant-a .activity-item {
+        display: grid;
+        grid-template-columns: 140px minmax(0, 1fr);
+        gap: 28px;
+        padding: 24px 0 28px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .variant-a .activity-meta {
+        align-content: start;
+        padding-top: 4px;
+      }
+
+      .variant-a .activity-meta .date {
+        color: var(--ink);
+      }
+
+      /* Variant B: the work feed is a sidecar to the introduction. */
+      .variant-b .hero-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 330px;
+        gap: 42px;
+        align-items: start;
+        margin-top: 64px;
+      }
+
+      .variant-b .hero {
+        padding: 34px;
+        border: 1px solid rgba(31, 27, 22, 0.09);
+        border-radius: var(--radius);
+        background: rgba(255, 248, 238, 0.76);
+        box-shadow: var(--shadow);
+      }
+
+      .variant-b .hero-title {
+        font-size: clamp(2.35rem, 4.4vw, 4rem);
+      }
+
+      .variant-b .hero-copy {
+        margin-top: 24px;
+      }
+
+      .variant-b .activity-sidecar {
+        padding: 23px;
+        border-radius: var(--radius);
+        color: #f6f1e8;
+        background: var(--accent);
+        box-shadow: 0 20px 42px rgba(29, 92, 99, 0.18);
+      }
+
+      .variant-b .activity-sidecar .eyebrow,
+      .variant-b .activity-sidecar .activity-meta .kind {
+        color: #aed7d3;
+      }
+
+      .variant-b .activity-sidecar .activity-heading {
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .variant-b .activity-sidecar .section-title {
+        margin-top: 8px;
+        font-size: 2rem;
+      }
+
+      .variant-b .activity-sidecar .activity-heading-copy p:last-child,
+      .variant-b .activity-sidecar .activity-updated,
+      .variant-b .activity-sidecar .activity-summary {
+        color: rgba(246, 241, 232, 0.7);
+      }
+
+      .variant-b .activity-list {
+        display: grid;
+        gap: 0;
+      }
+
+      .variant-b .activity-item {
+        padding: 18px 0;
+        border-top: 1px solid rgba(246, 241, 232, 0.2);
+      }
+
+      .variant-b .activity-item h3 {
+        color: #fffaf2;
+        font-size: 1.12rem;
+      }
+
+      .variant-b .activity-meta .date {
+        color: rgba(246, 241, 232, 0.82);
+      }
+
+      .variant-b .tag {
+        color: #d6ece9;
+        background: rgba(246, 241, 232, 0.12);
+      }
+
+      .variant-b .activity-section {
+        margin-top: 34px;
+      }
+
+      .variant-b .activity-section > .activity-heading,
+      .variant-b .activity-section > .activity-list {
+        display: none;
+      }
+
+      .variant-b .afterword {
+        max-width: 650px;
+        margin-top: 58px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+      }
+
+      /* Variant C: the feed leads, with the personal introduction underneath. */
+      .variant-c .hero {
+        margin-top: 70px;
+      }
+
+      .variant-c .hero-title {
+        max-width: 760px;
+        font-size: clamp(2.25rem, 4.7vw, 4.3rem);
+      }
+
+      .variant-c .hero-copy {
+        max-width: 630px;
+        margin-top: 22px;
+      }
+
+      .variant-c .activity-section {
+        margin-top: 46px;
+      }
+
+      .variant-c .activity-heading {
+        align-items: end;
+        margin-bottom: 18px;
+      }
+
+      .variant-c .activity-heading-copy {
+        display: flex;
+        align-items: baseline;
+        gap: 18px;
+      }
+
+      .variant-c .activity-heading-copy p:last-child {
+        display: none;
+      }
+
+      .variant-c .activity-list {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(230px, 0.65fr);
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--line);
+      }
+
+      .variant-c .activity-item {
+        min-height: 170px;
+        padding: 24px;
+        background: rgba(255, 248, 238, 0.9);
+      }
+
+      .variant-c .activity-item:first-child {
+        display: flex;
+        grid-row: span 2;
+        flex-direction: column;
+        justify-content: end;
+        min-height: 342px;
+        padding: 30px;
+        background: var(--paper-strong);
+      }
+
+      .variant-c .activity-item:first-child h3 {
+        max-width: 540px;
+        margin-top: 10px;
+        font-size: clamp(1.8rem, 3.6vw, 3rem);
+      }
+
+      .variant-c .activity-item:not(:first-child) h3 {
+        font-size: 1.05rem;
+      }
+
+      .variant-c .activity-item:not(:first-child) .activity-summary {
+        display: none;
+      }
+
+      .variant-c .activity-item:not(:first-child) .tag-list {
+        display: none;
+      }
+
+      .variant-c .hero-actions {
+        margin-top: 24px;
+      }
+
+      /* Prototype-only switcher. This component is not part of the production homepage. */
+      .prototype-switcher {
+        position: fixed;
+        bottom: 18px;
+        left: 50%;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 48px;
+        padding: 7px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        color: white;
+        background: rgba(31, 27, 22, 0.94);
+        box-shadow: 0 14px 30px rgba(31, 27, 22, 0.2);
+        transform: translateX(-50%);
+      }
+
+      .prototype-switcher button {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        font-size: 1.1rem;
+      }
+
+      .prototype-switcher button:hover,
+      .prototype-switcher button:focus-visible {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .prototype-switcher-label {
+        min-width: 160px;
+        color: rgba(255, 255, 255, 0.86);
+        font: 600 0.78rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+        text-align: center;
+      }
+
+      @media (max-width: 820px) {
+        .variant-b .hero-layout {
+          grid-template-columns: 1fr;
+          gap: 26px;
+        }
+
+        .variant-b .activity-section {
+          margin-top: 0;
+        }
+
+        .variant-b .activity-section > .activity-heading,
+        .variant-b .activity-section > .activity-list {
+          display: block;
+        }
+
+        .variant-b .activity-sidecar {
+          display: none;
+        }
+
+        .variant-c .activity-list {
+          grid-template-columns: 1fr;
+        }
+
+        .variant-c .activity-item:first-child {
+          grid-row: auto;
+          min-height: 260px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          width: min(100% - 28px, 1040px);
+          padding-top: 30px;
+        }
+
+        .prototype-note {
+          display: none;
+        }
+
+        .variant-a .hero,
+        .variant-b .hero,
+        .variant-c .hero {
+          margin-top: 46px;
+          padding-top: 0;
+        }
+
+        .variant-a .activity-item {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .activity-heading,
+        .variant-c .activity-heading-copy {
+          display: block;
+        }
+
+        .activity-updated {
+          display: block;
+          margin-top: 10px;
+        }
+
+        .variant-c .activity-heading-copy p:last-child {
+          display: block;
+          margin-top: 8px;
+        }
+
+        .prototype-switcher-label {
+          min-width: 138px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const ACTIVITY = [
+        {
+          date: "23 AUG",
+          kind: "BUILDING",
+          title: "Refined boundaries around external data providers.",
+          summary: "A high-level view of recent work on keeping provider integrations coherent and replaceable.",
+          tags: ["Java", "Architecture"]
+        },
+        {
+          date: "21 AUG",
+          kind: "BUILDING",
+          title: "Improved large-file processing in a Java service.",
+          summary: "Simplified how streamed exports are processed when the input is too large to treat as one in-memory object.",
+          tags: ["Java", "Streaming"]
+        },
+        {
+          date: "20 AUG",
+          kind: "BUILDING",
+          title: "Simplified reconciliation for imported activity data.",
+          summary: "Made asynchronous data flows easier to reason about and keep consistent.",
+          tags: ["Java", "Data"]
+        }
+      ];
+
+      const VARIANTS = {
+        a: "A · Editorial feed",
+        b: "B · Sidecar feed",
+        c: "C · Lately first"
+      };
+
+      const escapeHtml = (value) => String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+      const header = () => `
+        <header class="site-header">
+          <a class="brand" href="#top">Bradley Nichol</a>
+          <a class="nav-link" href="#contact">Contact</a>
+        </header>
+      `;
+
+      const tags = (items) => items.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+
+      const activityItem = (item, index) => `
+        <article class="activity-item">
+          <div class="activity-meta">
+            <span class="date">${escapeHtml(item.date)}</span>
+            <span class="kind">${escapeHtml(item.kind)}</span>
+          </div>
+          <div>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p class="activity-summary">${escapeHtml(item.summary)}</p>
+            <div class="tag-list">${tags(item.tags)}</div>
+          </div>
+        </article>
+      `;
+
+      const activityList = () => ACTIVITY.map(activityItem).join("");
+
+      const activityHeading = () => `
+        <div class="activity-heading">
+          <div class="activity-heading-copy">
+            <p class="eyebrow">Recent work</p>
+            <h2 class="section-title">What I’ve been building lately.</h2>
+            <p>A selective view of recent engineering themes, kept deliberately above the level of private product detail.</p>
+          </div>
+          <span class="activity-updated">Updated 23 Aug 2026</span>
+        </div>
+      `;
+
+      const heroCopy = () => `
+        <div class="hero-copy">
+          <p>
+            I'm a career changer turned senior Java developer in a FTSE 100 environment.
+            No formal CS background. Six years of building and shipping features inside large
+            enterprise systems, working across backend services and data-focused engineering teams.
+          </p>
+          <p>
+            I care deeply about clean architecture, readable code, and strong guard rails.
+            Slop — human or AI — isn't acceptable. Discipline still matters.
+          </p>
+          <p>
+            I'm not a coding savant and I don't aspire to be one. I enjoy building useful features
+            that fit coherently into larger systems. <strong>Structure, clarity, and long-term maintainability</strong>
+            are what interest me.
+          </p>
+          <p>
+            Recently I've been exploring agentic development and modern AI tooling in real production
+            contexts. Not chasing hype. Not replacing engineering judgment. Using AI as an amplifier — not a shortcut.
+          </p>
+        </div>
+      `;
+
+      const renderA = () => `
+        <div class="page variant-a" id="top">
+          ${header()}
+          <main>
+            <section class="hero">
+              <p class="eyebrow">Software engineer · pragmatic builder</p>
+              <h1 class="hero-title">Senior Backend Engineer. Pragmatic Builder. Clean Code Advocate.</h1>
+              ${heroCopy()}
+              <div class="hero-actions"><a class="quiet-link" href="#recent-work">See recent work ↓</a></div>
+            </section>
+            <section class="activity-section" id="recent-work">
+              ${activityHeading()}
+              <div class="activity-list">${activityList()}</div>
+            </section>
+          </main>
+        </div>
+      `;
+
+      const renderB = () => `
+        <div class="page variant-b" id="top">
+          ${header()}
+          <main>
+            <section class="hero-layout">
+              <div class="hero">
+                <p class="eyebrow">Software engineer · pragmatic builder</p>
+                <h1 class="hero-title">Senior Backend Engineer. Pragmatic Builder. Clean Code Advocate.</h1>
+                ${heroCopy()}
+                <div class="hero-actions"><a class="quiet-link" href="#contact">Get in touch →</a></div>
+              </div>
+              <aside class="activity-sidecar">
+                ${activityHeading()}
+                <div class="activity-list">${activityList()}</div>
+              </aside>
+            </section>
+            <section class="afterword">
+              <p><strong>The short version:</strong> I like useful work, coherent systems, and the quiet satisfaction of making a complicated thing easier to understand.</p>
+            </section>
+            <section class="activity-section" id="recent-work">
+              ${activityHeading()}
+              <div class="activity-list">${activityList()}</div>
+            </section>
+          </main>
+        </div>
+      `;
+
+      const renderC = () => `
+        <div class="page variant-c" id="top">
+          ${header()}
+          <main>
+            <section class="activity-section" id="recent-work">
+              ${activityHeading()}
+              <div class="activity-list">${activityList()}</div>
+            </section>
+            <section class="hero">
+              <p class="eyebrow">A living engineering homepage</p>
+              <h1 class="hero-title">Senior Backend Engineer. Pragmatic Builder. Clean Code Advocate.</h1>
+              ${heroCopy()}
+              <div class="hero-actions"><a class="quiet-link" href="#contact">More about Bradley →</a></div>
+            </section>
+          </main>
+        </div>
+      `;
+
+      const getVariant = () => {
+        const requested = new URLSearchParams(window.location.search).get("variant");
+        return Object.prototype.hasOwnProperty.call(VARIANTS, requested) ? requested : "a";
+      };
+
+      const setVariant = (variant) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("variant", variant);
+        window.history.replaceState({}, "", url);
+        render();
+      };
+
+      const cycleVariant = (direction) => {
+        const keys = Object.keys(VARIANTS);
+        const current = keys.indexOf(getVariant());
+        const next = (current + direction + keys.length) % keys.length;
+        setVariant(keys[next]);
+      };
+
+      const renderSwitcher = () => `
+        <div class="prototype-switcher" data-prototype-switcher aria-label="Homepage prototype variants">
+          <button type="button" data-cycle="-1" aria-label="Previous homepage variant">←</button>
+          <span class="prototype-switcher-label">${escapeHtml(VARIANTS[getVariant()])}</span>
+          <button type="button" data-cycle="1" aria-label="Next homepage variant">→</button>
+        </div>
+      `;
+
+      const render = () => {
+        const variant = getVariant();
+        const view = variant === "b" ? renderB() : variant === "c" ? renderC() : renderA();
+        document.querySelector("#app").innerHTML = `${view}<div class="prototype-note">Visual prototype · fictional feed</div>${renderSwitcher()}`;
+      };
+
+      document.addEventListener("click", (event) => {
+        const cycleButton = event.target.closest("[data-cycle]");
+        if (cycleButton) cycleVariant(Number(cycleButton.dataset.cycle));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        const tagName = document.activeElement?.tagName;
+        if (tagName === "INPUT" || tagName === "TEXTAREA" || document.activeElement?.isContentEditable) return;
+        if (event.key === "ArrowLeft") cycleVariant(-1);
+        if (event.key === "ArrowRight") cycleVariant(1);
+      });
+
+      render();
+    </script>
+  </body>
+</html>
