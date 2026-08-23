@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prototype — Activity feed sanitisation</title>
+    <style>
+      :root {
+        --bg: #f7f1e8;
+        --paper: #fffaf2;
+        --ink: #211c17;
+        --muted: #6e6257;
+        --line: rgba(33, 28, 23, 0.13);
+        --accent: #1d5c63;
+        --accent-soft: #e4f0ee;
+        --warn: #9b4d34;
+        --warn-soft: #f8e6df;
+        --shadow: 0 18px 45px rgba(33, 28, 23, 0.09);
+        --radius: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background:
+          radial-gradient(900px 500px at 0% 0%, rgba(201, 106, 74, 0.14), transparent 62%),
+          radial-gradient(800px 500px at 100% 5%, rgba(29, 92, 99, 0.15), transparent 58%),
+          var(--bg);
+        font-family: Georgia, "Times New Roman", serif;
+        line-height: 1.55;
+      }
+
+      button {
+        border: 0;
+        color: inherit;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      button:focus-visible {
+        outline: 3px solid rgba(29, 92, 99, 0.35);
+        outline-offset: 3px;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0 72px;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--accent);
+        font: 700 0.78rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.16;
+      }
+
+      h1 {
+        max-width: 760px;
+        font-size: clamp(2.2rem, 5vw, 4.2rem);
+        letter-spacing: -0.04em;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      h3 {
+        font-size: 1.08rem;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .intro {
+        max-width: 820px;
+        margin-bottom: 28px;
+      }
+
+      .intro-copy {
+        max-width: 720px;
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .prototype-note {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 7px 10px;
+        border: 1px solid rgba(29, 92, 99, 0.2);
+        border-radius: 999px;
+        color: var(--accent);
+        background: rgba(255, 250, 242, 0.75);
+        font: 600 0.76rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.7fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .panel {
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 250, 242, 0.84);
+        box-shadow: var(--shadow);
+      }
+
+      .panel + .panel {
+        margin-top: 20px;
+      }
+
+      .panel-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .panel-heading p,
+      .muted {
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .action-button,
+      .step-button,
+      .reset-button {
+        min-height: 44px;
+        padding: 10px 13px;
+        border: 1px solid rgba(29, 92, 99, 0.22);
+        border-radius: 10px;
+        color: var(--accent);
+        background: var(--accent-soft);
+        text-align: left;
+        transition: transform 0.16s ease, box-shadow 0.16s ease;
+      }
+
+      .action-button:hover,
+      .step-button:hover,
+      .reset-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 7px 16px rgba(29, 92, 99, 0.12);
+      }
+
+      .reset-button {
+        margin-top: 10px;
+        border-color: rgba(33, 28, 23, 0.16);
+        color: var(--ink);
+        background: transparent;
+      }
+
+      .state-block + .state-block {
+        margin-top: 22px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+      }
+
+      .state-block h3 {
+        margin-bottom: 9px;
+      }
+
+      .state-list,
+      .activity-card,
+      .candidate-card,
+      .published-card,
+      .rejected-card {
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: rgba(255, 255, 255, 0.45);
+      }
+
+      .state-list + .state-list,
+      .activity-card + .activity-card,
+      .candidate-card + .candidate-card,
+      .published-card + .published-card,
+      .rejected-card + .rejected-card {
+        margin-top: 8px;
+      }
+
+      .state-list {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .state-list strong {
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .activity-card,
+      .candidate-card,
+      .published-card,
+      .rejected-card {
+        display: grid;
+        gap: 5px;
+      }
+
+      .card-meta {
+        color: var(--muted);
+        font: 0.72rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .card-detail {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+      }
+
+      .chip {
+        padding: 3px 8px;
+        border-radius: 999px;
+        color: var(--accent);
+        background: var(--accent-soft);
+        font: 0.72rem/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .rejected-card {
+        border-color: rgba(155, 77, 52, 0.25);
+        background: var(--warn-soft);
+      }
+
+      .rejected-card .card-meta {
+        color: var(--warn);
+      }
+
+      .empty {
+        color: var(--muted);
+        font-style: italic;
+      }
+
+      .walkthrough-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .tab-button {
+        padding: 8px 11px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: transparent;
+      }
+
+      .tab-button[aria-selected="true"] {
+        border-color: var(--accent);
+        color: white;
+        background: var(--accent);
+      }
+
+      .scenario-copy {
+        min-height: 78px;
+        margin-bottom: 14px;
+        color: var(--muted);
+      }
+
+      .scenario-steps {
+        display: grid;
+        gap: 8px;
+      }
+
+      .step-button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        text-align: left;
+      }
+
+      .step-number {
+        display: grid;
+        flex: 0 0 24px;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        border-radius: 50%;
+        color: white;
+        background: var(--accent);
+        font: 700 0.75rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .step-button[disabled] {
+        cursor: default;
+        opacity: 0.58;
+      }
+
+      .walkthrough-status {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 820px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          width: min(100% - 22px, 1120px);
+          padding-top: 28px;
+        }
+
+        .panel {
+          padding: 18px;
+        }
+
+        .button-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="intro">
+        <p class="eyebrow">Logic prototype · activity feed</p>
+        <h1>Can private work become a useful public theme without crossing the line?</h1>
+        <p class="intro-copy">
+          This demo explores the proposed boundary: eligible merged PR activity is grouped into a theme,
+          a summariser proposes public wording, and deterministic rules decide whether anything can publish.
+          Every fixture is fictional. The prototype never calls GitHub or an LLM.
+        </p>
+        <span class="prototype-note">Throwaway · prototype/activity-feed-sanitization</span>
+      </section>
+
+      <section class="layout" aria-label="Activity sanitisation prototype">
+        <div>
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Free play</p>
+                <h2>Push the boundary</h2>
+              </div>
+              <p>State updates after every click.</p>
+            </div>
+            <div class="button-grid">
+              <button class="action-button" data-action="ADD_PROVIDER_ONE">Add provider-boundary PR</button>
+              <button class="action-button" data-action="ADD_PROVIDER_TWO">Add related contract PR</button>
+              <button class="action-button" data-action="ADD_STREAMING">Add large-file PR</button>
+              <button class="action-button" data-action="ADD_SENSITIVE">Add sensitive PR</button>
+              <button class="action-button" data-action="ADD_AMBIGUOUS">Add ambiguous PR</button>
+              <button class="action-button" data-action="ADD_INELIGIBLE">Add ineligible PR</button>
+              <button class="action-button" data-action="GENERATE">Generate candidate themes</button>
+              <button class="action-button" data-action="PUBLISH">Validate and publish safe themes</button>
+            </div>
+            <button class="reset-button" data-action="RESET">Reset the simulation</button>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Guided walkthroughs</p>
+                <h2>Try the awkward cases</h2>
+              </div>
+            </div>
+            <div class="walkthrough-tabs" role="tablist" aria-label="Prototype scenarios">
+              <button class="tab-button" role="tab" aria-selected="true" data-scenario="safe">Safe aggregation</button>
+              <button class="tab-button" role="tab" aria-selected="false" data-scenario="sensitive">Sensitive term</button>
+              <button class="tab-button" role="tab" aria-selected="false" data-scenario="ambiguous">Ambiguous output</button>
+              <button class="tab-button" role="tab" aria-selected="false" data-scenario="eligibility">Eligibility</button>
+            </div>
+            <div id="scenario-copy" class="scenario-copy"></div>
+            <div id="scenario-steps" class="scenario-steps"></div>
+            <p id="walkthrough-status" class="walkthrough-status"></p>
+          </section>
+        </div>
+
+        <aside>
+          <section class="panel" aria-live="polite">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Current state</p>
+                <h2>What crossed the boundary?</h2>
+              </div>
+            </div>
+            <div id="state"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      /*
+       * Portable logic module.
+       * The question it answers: can eligible private activity be aggregated into useful public themes
+       * while deterministic privacy rules decide what is allowed to publish?
+       */
+      const ActivityLogic = (() => {
+        const APPROVED_TAGS = ["Architecture", "Java", "Streaming", "Backend", "AI Engineering"];
+        const DENYLIST = ["PRIVATE_PRODUCT_ALPHA", "CLIENT_EXAMPLE", "INTERNAL_DOMAIN"];
+        const FORBIDDEN_PATTERNS = [
+          { pattern: /https?:\/\//i, reason: "contains a URL" },
+          { pattern: /\/v\d+/i, reason: "contains an endpoint-like path" },
+          { pattern: /\b(proprietary|unverified|internal)\b/i, reason: "uses private or unsupported wording" },
+          { pattern: /\b(PR|PRs|issue|commit)\b/i, reason: "exposes source-control language" }
+        ];
+
+        const FIXTURES = {
+          providerOne: {
+            id: "fixture-provider-1",
+            author: "Bradley",
+            merged: true,
+            baseBranch: "master",
+            mergedDate: "2026-08-23",
+            themeKey: "provider-boundaries",
+            privateBrief: "PRIVATE_PRODUCT_ALPHA provider adapter boundary",
+            language: "Java",
+            changeSize: "medium"
+          },
+          providerTwo: {
+            id: "fixture-provider-2",
+            author: "Bradley",
+            merged: true,
+            baseBranch: "master",
+            mergedDate: "2026-08-22",
+            themeKey: "provider-boundaries",
+            privateBrief: "CLIENT_EXAMPLE contract translation rules",
+            language: "Java",
+            changeSize: "small"
+          },
+          streaming: {
+            id: "fixture-streaming",
+            author: "Bradley",
+            merged: true,
+            baseBranch: "master",
+            mergedDate: "2026-08-21",
+            themeKey: "large-file-processing",
+            privateBrief: "PRIVATE_PRODUCT_ALPHA streamed export handling",
+            language: "Java",
+            changeSize: "large"
+          },
+          sensitive: {
+            id: "fixture-sensitive",
+            author: "Bradley",
+            merged: true,
+            baseBranch: "master",
+            mergedDate: "2026-08-20",
+            themeKey: "sensitive-domain",
+            privateBrief: "PRIVATE_PRODUCT_ALPHA replacement modelling",
+            language: "Java",
+            changeSize: "medium"
+          },
+          ambiguous: {
+            id: "fixture-ambiguous",
+            author: "Bradley",
+            merged: true,
+            baseBranch: "master",
+            mergedDate: "2026-08-19",
+            themeKey: "ambiguous-output",
+            privateBrief: "Internal subsystem behaviour with uncertain impact",
+            language: "Backend",
+            changeSize: "small"
+          },
+          ineligible: {
+            id: "fixture-ineligible",
+            author: "Someone else",
+            merged: true,
+            baseBranch: "feature-preview",
+            mergedDate: "2026-08-18",
+            themeKey: "provider-boundaries",
+            privateBrief: "A related change that is outside the chosen scope",
+            language: "Java",
+            changeSize: "small"
+          }
+        };
+
+        const initialState = () => ({
+          eligible: [],
+          ignored: [],
+          candidates: [],
+          published: [],
+          rejected: [],
+          lastAction: "Ready for a fictional activity item.",
+          lastChange: "No activity has crossed the boundary yet."
+        });
+
+        const cloneFixture = (fixture) => ({ ...fixture });
+
+        const eligibilityReason = (activity) => {
+          if (activity.author !== "Bradley") return "not authored by Bradley";
+          if (!activity.merged) return "not merged";
+          if (activity.baseBranch !== "master") return "not merged into master";
+          return null;
+        };
+
+        const candidateFor = (themeKey, activities) => {
+          const latest = activities[0];
+          const sourceCount = activities.length;
+          const base = { sourceCount, date: latest.mergedDate, type: "building" };
+
+          if (themeKey === "provider-boundaries") {
+            return {
+              ...base,
+              id: "candidate-provider-boundaries",
+              title: "Provider-neutral architecture",
+              summary: "Refined boundaries around external data providers.",
+              tags: ["Architecture", "Java"]
+            };
+          }
+
+          if (themeKey === "large-file-processing") {
+            return {
+              ...base,
+              id: "candidate-large-file-processing",
+              title: "Improved large-file processing",
+              summary: "Simplified streamed export processing for large files.",
+              tags: ["Java", "Streaming"]
+            };
+          }
+
+          if (themeKey === "sensitive-domain") {
+            return {
+              ...base,
+              id: "candidate-sensitive-domain",
+              title: "PRIVATE_PRODUCT_ALPHA replacement model",
+              summary: "Added replacement modelling for CLIENT_EXAMPLE.",
+              tags: ["Backend"]
+            };
+          }
+
+          return {
+            ...base,
+            id: "candidate-ambiguous-output",
+            title: "Internal subsystem changes",
+            summary: "Improved proprietary behaviour with unverified impact.",
+            tags: ["Backend"]
+          };
+        };
+
+        const validateCandidate = (candidate) => {
+          if (!candidate.title || !candidate.summary || !candidate.date || !candidate.type) {
+            return { safe: false, reason: "missing a required public field" };
+          }
+
+          if (candidate.type !== "building") {
+            return { safe: false, reason: "uses an unsupported activity type" };
+          }
+
+          if (candidate.title.length > 60 || candidate.summary.length > 160) {
+            return { safe: false, reason: "is too detailed for the public feed" };
+          }
+
+          const text = `${candidate.title} ${candidate.summary} ${candidate.tags.join(" ")}`;
+          const sensitiveTerm = DENYLIST.find((term) => text.toLowerCase().includes(term.toLowerCase()));
+          if (sensitiveTerm) {
+            return { safe: false, reason: `contains a private term: ${sensitiveTerm}` };
+          }
+
+          const forbidden = FORBIDDEN_PATTERNS.find(({ pattern }) => pattern.test(text));
+          if (forbidden) {
+            return { safe: false, reason: forbidden.reason };
+          }
+
+          if (candidate.tags.length > 3 || candidate.tags.some((tag) => !APPROVED_TAGS.includes(tag))) {
+            return { safe: false, reason: "contains an unapproved tag set" };
+          }
+
+          return { safe: true, reason: "passed the public-output policy" };
+        };
+
+        const generateCandidates = (eligible) => {
+          const grouped = eligible.reduce((groups, activity) => {
+            groups[activity.themeKey] = groups[activity.themeKey] || [];
+            groups[activity.themeKey].push(activity);
+            return groups;
+          }, {});
+
+          return Object.entries(grouped).map(([themeKey, activities]) => candidateFor(themeKey, activities));
+        };
+
+        const toPublicItem = (candidate) => ({
+          date: candidate.date,
+          type: candidate.type,
+          title: candidate.title,
+          summary: candidate.summary,
+          tags: candidate.tags
+        });
+
+        const addActivity = (state, activity) => {
+          const reason = eligibilityReason(activity);
+          if (reason) {
+            return {
+              ...state,
+              ignored: [...state.ignored, { activity, reason }],
+              lastAction: "ADD_ACTIVITY",
+              lastChange: `Ignored activity: ${reason}.`
+            };
+          }
+
+          return {
+            ...state,
+            eligible: [...state.eligible, activity],
+            lastAction: "ADD_ACTIVITY",
+            lastChange: "Eligible merged activity added to the private simulation."
+          };
+        };
+
+        const publish = (state) => {
+          const nextPublished = [];
+          const nextRejected = [];
+
+          state.candidates.forEach((candidate) => {
+            const result = validateCandidate(candidate);
+            if (result.safe) {
+              nextPublished.push({ item: toPublicItem(candidate), sourceCount: candidate.sourceCount });
+            } else {
+              nextRejected.push({ candidate, reason: result.reason });
+            }
+          });
+
+          return {
+            ...state,
+            published: nextPublished,
+            rejected: nextRejected,
+            lastAction: "PUBLISH",
+            lastChange: `${nextPublished.length} theme(s) published; ${nextRejected.length} candidate(s) rejected.`
+          };
+        };
+
+        const reduce = (state, action) => {
+          if (action.type === "RESET") return initialState();
+
+          if (action.type === "ADD_ACTIVITY") return addActivity(state, cloneFixture(action.fixture));
+
+          if (action.type === "GENERATE") {
+            const candidates = generateCandidates(state.eligible);
+            return {
+              ...state,
+              candidates,
+              published: [],
+              rejected: [],
+              lastAction: "GENERATE",
+              lastChange: `${candidates.length} candidate theme(s) generated from ${state.eligible.length} eligible activity item(s).`
+            };
+          }
+
+          if (action.type === "PUBLISH") return publish(state);
+
+          return state;
+        };
+
+        return {
+          APPROVED_TAGS,
+          FIXTURES,
+          initialState,
+          reduce
+        };
+      })();
+
+      let state = ActivityLogic.initialState();
+      let selectedScenario = "safe";
+      let scenarioStep = 0;
+
+      const scenarios = {
+        safe: {
+          label: "Safe aggregation",
+          description: "Two related private changes should become one useful theme. Watch the source count disappear from the public item.",
+          steps: [
+            ["ADD_ACTIVITY", "providerOne", "Add the first provider-boundary change"],
+            ["ADD_ACTIVITY", "providerTwo", "Add the related contract change"],
+            ["GENERATE", null, "Generate one aggregated candidate"],
+            ["PUBLISH", null, "Publish the safe public theme"]
+          ]
+        },
+        sensitive: {
+          label: "Sensitive term",
+          description: "A candidate can sound plausible and still contain a known private term. Watch the validator reject it instead of rewriting it.",
+          steps: [
+            ["ADD_ACTIVITY", "sensitive", "Add the sensitive-domain change"],
+            ["GENERATE", null, "Generate the candidate"],
+            ["PUBLISH", null, "Try to publish the candidate"]
+          ]
+        },
+        ambiguous: {
+          label: "Ambiguous output",
+          description: "A candidate with unsupported or private wording should be dropped even when its broad intent sounds like engineering work.",
+          steps: [
+            ["ADD_ACTIVITY", "ambiguous", "Add the ambiguous change"],
+            ["GENERATE", null, "Generate the candidate"],
+            ["PUBLISH", null, "Try to publish the candidate"]
+          ]
+        },
+        eligibility: {
+          label: "Eligibility",
+          description: "Only Bradley-authored PRs merged into master should reach summarisation. Watch unrelated activity stop before the public boundary.",
+          steps: [
+            ["ADD_ACTIVITY", "ineligible", "Add the out-of-scope change"],
+            ["ADD_ACTIVITY", "streaming", "Add Bradley's eligible merged change"],
+            ["GENERATE", null, "Generate from eligible activity only"],
+            ["PUBLISH", null, "Publish the eligible theme"]
+          ]
+        }
+      };
+
+      const dispatch = (type, fixtureName) => {
+        const action = fixtureName
+          ? { type: "ADD_ACTIVITY", fixture: ActivityLogic.FIXTURES[fixtureName] }
+          : { type };
+        state = ActivityLogic.reduce(state, action);
+        renderState();
+      };
+
+      const escapeHtml = (value) => String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+      const chips = (tags) => tags.map((tag) => `<span class="chip">${escapeHtml(tag)}</span>`).join("");
+
+      const renderActivities = () => {
+        if (!state.eligible.length && !state.ignored.length) return '<p class="empty">No fictional activity has been added.</p>';
+
+        const eligible = state.eligible.map((activity) => `
+          <article class="activity-card">
+            <span class="card-meta">eligible · merged ${escapeHtml(activity.mergedDate)}</span>
+            <strong>${escapeHtml(activity.themeKey)}</strong>
+            <span class="card-detail">Private simulation only · ${escapeHtml(activity.language)} · ${escapeHtml(activity.changeSize)} change</span>
+          </article>
+        `).join("");
+
+        const ignored = state.ignored.map(({ activity, reason }) => `
+          <article class="rejected-card">
+            <span class="card-meta">ignored before summarisation</span>
+            <strong>${escapeHtml(activity.themeKey)}</strong>
+            <span class="card-detail">${escapeHtml(reason)}</span>
+          </article>
+        `).join("");
+
+        return eligible + ignored;
+      };
+
+      const renderCandidates = () => {
+        if (!state.candidates.length) return '<p class="empty">No candidate themes yet.</p>';
+        return state.candidates.map((candidate) => `
+          <article class="candidate-card">
+            <span class="card-meta">candidate · ${candidate.sourceCount} source item(s)</span>
+            <strong>${escapeHtml(candidate.title)}</strong>
+            <span class="card-detail">${escapeHtml(candidate.summary)}</span>
+            <div class="chip-row">${chips(candidate.tags)}</div>
+          </article>
+        `).join("");
+      };
+
+      const renderPublished = () => {
+        if (!state.published.length) return '<p class="empty">Nothing has crossed the public boundary.</p>';
+        return state.published.map(({ item, sourceCount }) => `
+          <article class="published-card">
+            <span class="card-meta">${escapeHtml(item.date)} · ${escapeHtml(item.type)} · ${sourceCount} source item(s)</span>
+            <strong>${escapeHtml(item.title)}</strong>
+            <span class="card-detail">${escapeHtml(item.summary)}</span>
+            <div class="chip-row">${chips(item.tags)}</div>
+          </article>
+        `).join("");
+      };
+
+      const renderRejected = () => {
+        if (!state.rejected.length) return '<p class="empty">No candidate has been rejected yet.</p>';
+        return state.rejected.map(({ candidate, reason }) => `
+          <article class="rejected-card">
+            <span class="card-meta">rejected · stays private</span>
+            <strong>${escapeHtml(candidate.title)}</strong>
+            <span class="card-detail">${escapeHtml(reason)}</span>
+          </article>
+        `).join("");
+      };
+
+      const renderState = () => {
+        document.querySelector("#state").innerHTML = `
+          <div class="state-block">
+            <h3>Decision</h3>
+            <div class="state-list"><span>Last action</span><strong>${escapeHtml(state.lastAction)}</strong></div>
+            <div class="state-list"><span>What changed</span><strong>${escapeHtml(state.lastChange)}</strong></div>
+          </div>
+          <div class="state-block">
+            <h3>Private activity simulation</h3>
+            ${renderActivities()}
+          </div>
+          <div class="state-block">
+            <h3>Candidate themes</h3>
+            ${renderCandidates()}
+          </div>
+          <div class="state-block">
+            <h3>Public artifact</h3>
+            ${renderPublished()}
+          </div>
+          <div class="state-block">
+            <h3>Rejected candidates</h3>
+            ${renderRejected()}
+          </div>
+        `;
+      };
+
+      const renderScenario = () => {
+        const scenario = scenarios[selectedScenario];
+        document.querySelectorAll("[data-scenario]").forEach((button) => {
+          button.setAttribute("aria-selected", String(button.dataset.scenario === selectedScenario));
+        });
+
+        document.querySelector("#scenario-copy").textContent = scenario.description;
+        document.querySelector("#scenario-steps").innerHTML = scenario.steps.map(([type, fixtureName, label], index) => `
+          <button class="step-button" data-step="${index}" ${index !== scenarioStep ? "disabled" : ""}>
+            <span class="step-number">${index + 1}</span>
+            <span>${escapeHtml(label)}</span>
+          </button>
+        `).join("");
+
+        const status = scenarioStep >= scenario.steps.length
+          ? "Walkthrough complete. Reset and try another scenario."
+          : `Step ${scenarioStep + 1} of ${scenario.steps.length}`;
+        document.querySelector("#walkthrough-status").textContent = status;
+      };
+
+      document.addEventListener("click", (event) => {
+        const actionButton = event.target.closest("[data-action]");
+        if (actionButton) {
+          dispatch(actionButton.dataset.action);
+          return;
+        }
+
+        const scenarioButton = event.target.closest("[data-scenario]");
+        if (scenarioButton) {
+          selectedScenario = scenarioButton.dataset.scenario;
+          scenarioStep = 0;
+          dispatch("RESET");
+          renderScenario();
+          return;
+        }
+
+        const stepButton = event.target.closest("[data-step]");
+        if (stepButton) {
+          const step = scenarios[selectedScenario].steps[Number(stepButton.dataset.step)];
+          dispatch(step[0], step[1]);
+          scenarioStep += 1;
+          renderScenario();
+        }
+      });
+
+      renderState();
+      renderScenario();
+    </script>
+  </body>
+</html>
