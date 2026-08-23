@@ -17,17 +17,27 @@ export {
   selectEligiblePullRequests,
 } from "./eligibility.mjs";
 export {
+  createGithubActivityExtractor,
+  DEFAULT_GITHUB_API_ROOT,
+  extractGithubActivity,
+  GITHUB_API_VERSION,
+  GITHUB_PAGE_SIZE,
+  validateRepositoryAllowlist,
+} from "./github.mjs";
+export {
   buildSummarizerInput,
   createHostedLanguageModelAdapter,
   MODEL_INSTRUCTIONS,
 } from "./model.mjs";
 
 import { aggregateRelatedActivity, selectEligiblePullRequests } from "./eligibility.mjs";
+import { expandRepositoryPrivateTerms } from "./github.mjs";
 import { buildSummarizerInput } from "./model.mjs";
 import { createPublicArtifact } from "./contract.mjs";
 
 export const produceActivityArtifact = async ({
   activity,
+  eligibleActivity,
   asOf,
   authorLogin,
   repositoryAllowlist,
@@ -38,15 +48,22 @@ export const produceActivityArtifact = async ({
     throw new Error("A summarizer adapter is required");
   }
 
-  const eligible = selectEligiblePullRequests(activity, {
-    asOf,
-    authorLogin,
-    repositoryAllowlist,
-  });
+  const eligible = Array.isArray(eligibleActivity)
+    ? eligibleActivity
+    : selectEligiblePullRequests(activity, {
+      asOf,
+      authorLogin,
+      repositoryAllowlist,
+    });
   const groups = aggregateRelatedActivity(eligible);
+  const repositoryPrivateTerms = (Array.isArray(repositoryAllowlist)
+    ? repositoryAllowlist
+    : [])
+    .filter((repository) => typeof repository === "string")
+    .flatMap(expandRepositoryPrivateTerms);
   const privateTerms = [
     ...denylist,
-    ...(Array.isArray(repositoryAllowlist) ? repositoryAllowlist : []),
+    ...repositoryPrivateTerms,
     authorLogin,
     "master",
   ];

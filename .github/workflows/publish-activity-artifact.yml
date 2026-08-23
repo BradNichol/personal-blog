@@ -10,11 +10,15 @@ permissions:
 
 jobs:
   publish:
+    # This permission is only for committing the already-sanitized public
+    # artifact. Private GitHub ingestion uses the separate read-only secret.
     runs-on: ubuntu-latest
     env:
+      GITHUB_TOKEN: ${{ github.token }}
       ACTIVITY_AUTHOR_LOGIN: ${{ secrets.ACTIVITY_AUTHOR_LOGIN }}
       ACTIVITY_DENYLIST: ${{ secrets.ACTIVITY_DENYLIST }}
       ACTIVITY_GITHUB_TOKEN: ${{ secrets.ACTIVITY_GITHUB_TOKEN }}
+      ACTIVITY_GITHUB_TOKEN_POLICY: ${{ secrets.ACTIVITY_GITHUB_TOKEN_POLICY }}
       ACTIVITY_MODEL_API_KEY: ${{ secrets.ACTIVITY_MODEL_API_KEY }}
       ACTIVITY_MODEL_ENDPOINT: ${{ secrets.ACTIVITY_MODEL_ENDPOINT }}
       ACTIVITY_MODEL_POLICY: ${{ secrets.ACTIVITY_MODEL_POLICY }}

@@ -26,6 +26,11 @@ const safeLanguage = (language) => (
     : undefined
 );
 
+const safeModelText = (value, privateTerms) => {
+  const redacted = redactText(value, privateTerms);
+  return hasUnsafeText(redacted, privateTerms) ? "" : redacted;
+};
+
 const safeDate = (date) => (isCalendarDate(date) ? date : undefined);
 
 export const buildSummarizerInput = (groups, options = {}) => ({
@@ -34,11 +39,11 @@ export const buildSummarizerInput = (groups, options = {}) => ({
     theme: safeTheme(theme),
     events: (Array.isArray(events) ? events : []).map((event) => ({
       date: safeDate(event.date),
-      title: redactText(event.title, [
+      title: safeModelText(event.title, [
         ...(options.denylist ?? []),
         ...(options.privateTerms ?? []),
       ]),
-      description: redactText(event.description, [
+      description: safeModelText(event.description, [
         ...(options.denylist ?? []),
         ...(options.privateTerms ?? []),
       ]),
