@@ -14,3 +14,10 @@ jobs:
       - run: test -f public/robots.txt
       - run: test -f public/sitemap.xml
       - run: node --test tests/recent-work.test.mjs
+      - run: node --test tests/activity-pipeline.test.mjs
+      - run: node --check scripts/activity/contract.mjs
+      - run: node --check scripts/activity/eligibility.mjs
+      - run: node --check scripts/activity/model.mjs
+      - run: node --check scripts/activity/text.mjs
+      - run: node --check scripts/activity/index.mjs
+      - run: node --check scripts/activity/publish.mjs
