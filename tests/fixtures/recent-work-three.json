@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "items": [
+    {
+      "date": "2026-08-17",
+      "type": "building",
+      "title": "Strengthened boundaries for scheduled work.",
+      "summary": "Made recurring processing easier to monitor and maintain.",
+      "tags": ["Java", "Architecture"]
+    },
+    {
+      "date": "2026-08-20",
+      "type": "building",
+      "title": "Simplified reconciliation for imported activity data.",
+      "summary": "Made asynchronous data flows easier to reason about and keep consistent.",
+      "tags": ["Java", "Data"]
+    },
+    {
+      "date": "2026-08-21",
+      "type": "building",
+      "title": "Improved large-file processing in a Java service.",
+      "summary": "Simplified how streamed exports are processed when the input is too large to treat as one in-memory object.",
+      "tags": ["Java", "Streaming"]
+    },
+    {
+      "date": "2026-08-23",
+      "type": "building",
+      "title": "Refined boundaries around external data providers.",
+      "summary": "A high-level view of recent work on keeping provider integrations coherent and replaceable.",
+      "tags": ["Java", "Architecture"]
+    }
+  ]
+}

@@ -13,3 +13,4 @@ jobs:
       - run: test -f public/styles.css
       - run: test -f public/robots.txt
       - run: test -f public/sitemap.xml
+      - run: node --test tests/recent-work.test.mjs
