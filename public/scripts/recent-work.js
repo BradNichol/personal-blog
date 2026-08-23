@@ -2,9 +2,8 @@ const MAX_ITEMS = 3;
 const CALENDAR_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const ACTIVITY_TYPE_LABELS = {
   building: "Building",
-  learning: "Learning",
-  thinking: "Thinking",
 };
+const APPROVED_TAGS = new Set(["Architecture", "Data", "Java", "Streaming"]);
 
 const isCalendarDate = (value) => {
   if (typeof value !== "string" || !CALENDAR_DATE_PATTERN.test(value)) {
@@ -34,7 +33,7 @@ const normalizeTags = (tags) => {
   }
 
   return [...new Set(tags)]
-    .filter((tag) => typeof tag === "string" && tag.trim().length > 0)
+    .filter((tag) => APPROVED_TAGS.has(tag))
     .slice(0, 3);
 };
 

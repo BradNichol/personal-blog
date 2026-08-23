@@ -61,6 +61,26 @@ test("renderRecentWork supports zero, one, and three item artifacts", () => {
   assert.doesNotMatch(one, /Architecture/);
 });
 
+test("renderRecentWork only shows approved tags and caps them at three", () => {
+  const rendered = renderRecentWork({
+    items: [
+      {
+        date: "2026-08-23",
+        type: "building",
+        title: "Kept public labels consistent",
+        summary: "Used the approved vocabulary for the public projection.",
+        tags: ["Java", "Uncontrolled", "Architecture", "Data", "Streaming"],
+      },
+    ],
+  });
+
+  assert.match(rendered, /<span class="tag">Java<\/span>/);
+  assert.match(rendered, /<span class="tag">Architecture<\/span>/);
+  assert.match(rendered, /<span class="tag">Data<\/span>/);
+  assert.doesNotMatch(rendered, /Uncontrolled|Streaming/);
+  assert.equal((rendered.match(/class="tag"/g) ?? []).length, 3);
+});
+
 test("selectRecentWork ignores malformed or uncontrolled items", () => {
   const selected = selectRecentWork({
     items: [
@@ -81,6 +101,12 @@ test("selectRecentWork ignores malformed or uncontrolled items", () => {
         type: "shipping",
         title: "Uncontrolled type",
         summary: "Should not render",
+      },
+      {
+        date: "2026-08-20",
+        type: "learning",
+        title: "Future activity type",
+        summary: "Should not render in v1",
       },
     ],
   });
