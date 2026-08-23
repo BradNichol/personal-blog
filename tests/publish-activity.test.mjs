@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { renderRecentWork } from "../public/scripts/recent-work.js";
 import { publishActivityArtifact } from "../scripts/activity/publish.mjs";
 
 const repository = "fictional-owner/allowed-service";
@@ -78,6 +79,9 @@ test("publishActivityArtifact keeps GitHub ingestion private and writes only the
 
   assert.deepEqual(artifact, writtenArtifact);
   assert.deepEqual(artifact.items, [safeCandidate]);
+  const rendered = renderRecentWork(artifact);
+  assert.match(rendered, /23 Aug 2026/);
+  assert.match(rendered, /Improved large-file processing/);
   assert.equal(githubRequests.length, 1);
   assert.equal(githubRequests[0].options.method, "GET");
   assert.equal("body" in githubRequests[0].options, false);

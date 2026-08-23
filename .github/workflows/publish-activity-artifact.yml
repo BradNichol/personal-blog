@@ -13,22 +13,21 @@ jobs:
     # This permission is only for committing the already-sanitized public
     # artifact. Private GitHub ingestion uses the separate read-only secret.
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
-      ACTIVITY_AUTHOR_LOGIN: ${{ secrets.ACTIVITY_AUTHOR_LOGIN }}
-      ACTIVITY_DENYLIST: ${{ secrets.ACTIVITY_DENYLIST }}
-      ACTIVITY_GITHUB_TOKEN: ${{ secrets.ACTIVITY_GITHUB_TOKEN }}
-      ACTIVITY_GITHUB_TOKEN_POLICY: ${{ secrets.ACTIVITY_GITHUB_TOKEN_POLICY }}
-      ACTIVITY_MODEL_API_KEY: ${{ secrets.ACTIVITY_MODEL_API_KEY }}
-      ACTIVITY_MODEL_ENDPOINT: ${{ secrets.ACTIVITY_MODEL_ENDPOINT }}
-      ACTIVITY_MODEL_POLICY: ${{ secrets.ACTIVITY_MODEL_POLICY }}
-      ACTIVITY_MODEL_PROVIDER: ${{ secrets.ACTIVITY_MODEL_PROVIDER }}
-      ACTIVITY_REPOSITORIES: ${{ secrets.ACTIVITY_REPOSITORIES }}
     steps:
       - name: Check out the public site
         uses: actions/checkout@v4
 
       - name: Produce the validated artifact
+        env:
+          ACTIVITY_AUTHOR_LOGIN: ${{ secrets.ACTIVITY_AUTHOR_LOGIN }}
+          ACTIVITY_DENYLIST: ${{ secrets.ACTIVITY_DENYLIST }}
+          ACTIVITY_GITHUB_TOKEN: ${{ secrets.ACTIVITY_GITHUB_TOKEN }}
+          ACTIVITY_GITHUB_TOKEN_POLICY: ${{ secrets.ACTIVITY_GITHUB_TOKEN_POLICY }}
+          ACTIVITY_MODEL_API_KEY: ${{ secrets.ACTIVITY_MODEL_API_KEY }}
+          ACTIVITY_MODEL_ENDPOINT: ${{ secrets.ACTIVITY_MODEL_ENDPOINT }}
+          ACTIVITY_MODEL_POLICY: ${{ secrets.ACTIVITY_MODEL_POLICY }}
+          ACTIVITY_MODEL_PROVIDER: ${{ secrets.ACTIVITY_MODEL_PROVIDER }}
+          ACTIVITY_REPOSITORIES: ${{ secrets.ACTIVITY_REPOSITORIES }}
         run: node scripts/activity/publish.mjs
 
       - name: Commit the sanitized artifact
