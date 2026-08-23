@@ -172,6 +172,28 @@ test("buildSummarizerInput exposes only the constrained model boundary", () => {
   assert.doesNotMatch(serializedGroups, /repository|authorLogin|targetBranch|additions|deletions|changedFiles/);
 });
 
+test("buildSummarizerInput redacts source-code and diff-shaped text", () => {
+  const input = buildSummarizerInput([{
+    theme: ["Architecture"],
+    events: [{
+      date: "2026-08-23",
+      title: "```js const secret = value; ```",
+      description: "diff --git a/private/file.js b/private/file.js\n+const secret = value;",
+    }, {
+      date: "2026-08-23",
+      title: "if (ready) { process(); }",
+      description: "if (ready) { process(); }",
+    }, {
+      date: "2026-08-23",
+      title: "process()",
+      description: "if (ready)",
+    }],
+  }]);
+  const serialized = JSON.stringify(input);
+
+  assert.doesNotMatch(serialized, /const secret|diff --git|private\/file\.js/);
+});
+
 test("validatePublicCandidate accepts the public contract and rejects unsafe or ambiguous proposals", () => {
   assert.deepEqual(validatePublicCandidate(safeCandidate, { denylist: DENYLIST }), {
     valid: true,

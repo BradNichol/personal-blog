@@ -6,6 +6,10 @@ const BRANCH_PATTERN = /\b(?:feature|bugfix|hotfix|chore|release|task|refactor)\
 const IDENTIFIER_PATTERN = /(?:#|\b(?:GH|PR)-)\d+\b|\b[0-9a-f]{7,40}\b|\b[0-9a-f]{8}-[0-9a-f-]{27,35}\b/giu;
 const TICKET_PATTERN = /\b[A-Z]{2,10}-\d{1,8}\b/giu;
 const DOMAIN_PATTERN = /\b(?:[a-z0-9-]+\.)+(?:com|co\.uk|org|net|io|dev|internal|local|example|invalid)\b/giu;
+const CODE_FENCE_PATTERN = /```[\s\S]*?```/gu;
+const DIFF_PATTERN = /(?:^|\n)\s*(?:diff --git|@@\s+-\d|(?:---|\+\+\+)\s+\S)/mu;
+const CODE_PUNCTUATION_PATTERN = /[{};]/u;
+const CODE_CALL_PATTERN = /\b(?:if|for|while|switch|catch)\s*\([^)]*\)|\b[A-Za-z_$][\w$]*\s*\([^)]*\)/u;
 const EXACT_COUNT_PATTERN = /\b\d[\d,.]*\s*(?:files?|lines?|commits?|pull requests?|records?|events?|items?|endpoints?)\b/iu;
 const WORDED_COUNT_PATTERN = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten)\s+(?:files?|lines?|commits?|pull requests?|records?|events?|items?|endpoints?)\b/iu;
 const STANDALONE_NUMBER_PATTERN = /\b\d[\d,.]*\b/u;
@@ -46,6 +50,10 @@ export const hasUnsafeText = (value, privateTerms = []) => (
   || matches(IDENTIFIER_PATTERN, value)
   || matches(TICKET_PATTERN, value)
   || matches(DOMAIN_PATTERN, value)
+  || matches(CODE_FENCE_PATTERN, value)
+  || matches(DIFF_PATTERN, value)
+  || CODE_PUNCTUATION_PATTERN.test(value)
+  || CODE_CALL_PATTERN.test(value)
   || EXACT_COUNT_PATTERN.test(value)
   || WORDED_COUNT_PATTERN.test(value)
   || STANDALONE_NUMBER_PATTERN.test(value)
@@ -67,7 +75,7 @@ export const redactText = (value, privateTerms = []) => {
     result = result.replace(new RegExp(escapeRegExp(term), "giu"), REDACTED);
   }
 
-  return result
+  const normalized = result
     .replace(URL_PATTERN, REDACTED)
     .replace(BRANCH_PATTERN, REDACTED)
     .replace(PATH_PATTERN, REDACTED)
@@ -75,9 +83,15 @@ export const redactText = (value, privateTerms = []) => {
     .replace(IDENTIFIER_PATTERN, REDACTED)
     .replace(TICKET_PATTERN, REDACTED)
     .replace(DOMAIN_PATTERN, REDACTED)
+    .replace(CODE_FENCE_PATTERN, REDACTED)
+    .replace(DIFF_PATTERN, REDACTED)
     .replace(SOURCE_CODE_PATTERN, REDACTED)
     .replace(ASSIGNMENT_PATTERN, REDACTED)
     .replace(NUMBER_PATTERN, REDACTED)
     .replace(/\s+/gu, " ")
     .trim();
+
+  return CODE_PUNCTUATION_PATTERN.test(normalized) || CODE_CALL_PATTERN.test(normalized)
+    ? REDACTED
+    : normalized;
 };
