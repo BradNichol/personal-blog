@@ -26,71 +26,11 @@ export {
 } from "./github.mjs";
 export {
   buildSummarizerInput,
-  createHostedLanguageModelAdapter,
   MODEL_INSTRUCTIONS,
 } from "./model.mjs";
-
-import { aggregateRelatedActivity, selectEligiblePullRequests } from "./eligibility.mjs";
-import { expandRepositoryPrivateTerms } from "./github.mjs";
-import { buildSummarizerInput } from "./model.mjs";
-import { createPublicArtifact } from "./contract.mjs";
-
-export const produceActivityArtifact = async ({
-  activity,
-  eligibleActivity,
-  asOf,
-  authorLogin,
-  repositoryAllowlist,
-  adapter,
-  denylist = [],
-}) => {
-  if (!adapter || typeof adapter.summarize !== "function") {
-    throw new Error("A summarizer adapter is required");
-  }
-
-  const eligible = Array.isArray(eligibleActivity)
-    ? eligibleActivity
-    : selectEligiblePullRequests(activity, {
-      asOf,
-      authorLogin,
-      repositoryAllowlist,
-    });
-  const groups = aggregateRelatedActivity(eligible);
-  const repositoryPrivateTerms = (Array.isArray(repositoryAllowlist)
-    ? repositoryAllowlist
-    : [])
-    .filter((repository) => typeof repository === "string")
-    .flatMap(expandRepositoryPrivateTerms);
-  const privateTerms = [
-    ...denylist,
-    ...repositoryPrivateTerms,
-    authorLogin,
-    "master",
-  ];
-  if (groups.length === 0) {
-    return createPublicArtifact({
-      asOf,
-      candidates: [],
-      denylist: privateTerms,
-    });
-  }
-
-  const proposal = await adapter.summarize(buildSummarizerInput(groups, {
-    denylist,
-    privateTerms,
-  }));
-  let candidates;
-  if (Array.isArray(proposal)) {
-    candidates = proposal;
-  } else if (proposal && Array.isArray(proposal.items)) {
-    candidates = proposal.items;
-  } else {
-    throw new Error("Model response did not contain a candidate item array");
-  }
-
-  return createPublicArtifact({
-    asOf,
-    candidates,
-    denylist: privateTerms,
-  });
-};
+export { prepareActivityInput } from "./prepare.mjs";
+export {
+  finalizeActivityArtifact,
+  finalizeActivityFromEnvironment,
+  readCandidateProposal,
+} from "./finalize.mjs";

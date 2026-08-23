@@ -1,0 +1,4 @@
+interface:
+  display_name: "Publish Recent Work"
+  short_description: "Prepare and validate a privacy-safe recent-work artifact locally"
+  default_prompt: "Run the local recent-work publication flow, summarize only the prepared safe activity input, validate the candidate JSON, and optionally commit the artifact."

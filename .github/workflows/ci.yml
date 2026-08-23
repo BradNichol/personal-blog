@@ -13,14 +13,20 @@ jobs:
       - run: test -f public/styles.css
       - run: test -f public/robots.txt
       - run: test -f public/sitemap.xml
+      - run: test -f skills/publish-recent-work/SKILL.md
+      - run: test -f skills/publish-recent-work/agents/openai.yaml
       - run: node --test tests/recent-work.test.mjs
       - run: node --test tests/activity-pipeline.test.mjs
       - run: node --test tests/github-extractor.test.mjs
-      - run: node --test tests/publish-activity.test.mjs
+      - run: node --test tests/local-publish.test.mjs
       - run: node --check scripts/activity/contract.mjs
       - run: node --check scripts/activity/eligibility.mjs
       - run: node --check scripts/activity/model.mjs
       - run: node --check scripts/activity/text.mjs
       - run: node --check scripts/activity/index.mjs
       - run: node --check scripts/activity/github.mjs
-      - run: node --check scripts/activity/publish.mjs
+      - run: node --check scripts/activity/cli.mjs
+      - run: node --check scripts/activity/commit.mjs
+      - run: node --check scripts/activity/config.mjs
+      - run: node --check scripts/activity/prepare.mjs
+      - run: node --check scripts/activity/finalize.mjs
