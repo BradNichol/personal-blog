@@ -17,54 +17,51 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;700&family=Source+Sans+3:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
   </head>
   <body>
-    <div class="page">
-      <header class="site-header reveal">
-        <div class="brand">Bradley Nichol</div>
-        <nav class="nav">
-          <a href="/">Home</a>
+    <main class="variant-d">
+      <div class="d-shell">
+        <nav class="d-nav" aria-label="Primary navigation">
+          <a class="d-mark" href="/">BN <span>///</span> FIELD SIGNAL</a>
+          <a class="site-link" href="/">Home</a>
         </nav>
-      </header>
 
-      <main>
-        <section class="contact-card reveal delay-1">
-          <h1 class="section-title">Contact</h1>
-          <p>Find me here:</p>
-          <div class="icon-links">
+        <section class="contact-page" aria-labelledby="contact-title">
+          <p class="eyebrow">Contact / Bradley Nichol</p>
+          <h1 id="contact-title">Open a <span>channel.</span></h1>
+          <p>
+            For thoughtful conversations about backend engineering, data,
+            architecture, or building software that lasts.
+          </p>
+          <div class="contact-links">
             <a
-              class="icon-link"
+              class="contact-link"
               href="https://www.linkedin.com/in/bradleynichol/"
               target="_blank"
               rel="noreferrer"
-              aria-label="LinkedIn"
             >
-              <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-              <span>LinkedIn</span>
+              LinkedIn
             </a>
             <a
-              class="icon-link"
+              class="contact-link"
               href="https://github.com/BradNichol"
               target="_blank"
               rel="noreferrer"
-              aria-label="GitHub"
             >
-              <i class="fa-brands fa-github" aria-hidden="true"></i>
-              <span>GitHub</span>
+              GitHub
             </a>
           </div>
         </section>
-      </main>
-    </div>
+
+        <footer class="d-afterword">
+          <h2>Back to the <span>field notes.</span></h2>
+          <a class="site-link" href="/">Return home</a>
+        </footer>
+      </div>
+    </main>
   </body>
 </html>
