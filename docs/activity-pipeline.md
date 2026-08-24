@@ -41,6 +41,15 @@ be committed:
   `repositories` array exactly matching `ACTIVITY_REPOSITORIES`.
 - `ACTIVITY_DENYLIST`: JSON array of private sensitive terms.
 
+For first-time setup, run `bash scripts/activity/setup-local.sh`. The wizard
+stores shell-escaped values at `~/.config/personal-blog/activity.env` (or the
+path supplied through `ACTIVITY_CONFIG_FILE`), refuses repository-local
+credential files, and generates `ACTIVITY_GITHUB_TOKEN_POLICY` from the
+allowlist. Create the token as a fine-grained token restricted to the selected
+repositories with only Metadata and Pull requests read permissions. The
+[GitHub token guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+describes the current token-creation flow.
+
 The local runner may commit and push only the sanitized artifact when that
 side effect is explicitly authorized. `scripts/activity/commit.mjs` refuses to
 commit when any other tracked or untracked file is changed; pass `--push` only
