@@ -67,6 +67,16 @@ test("renderRecentWork shows every public field and escapes item content", () =>
   assert.doesNotMatch(rendered, /<safe>/);
 });
 
+test("renderRecentWork supports the editorial production layout", () => {
+  const rendered = renderRecentWork(readFixture("recent-work-one.json"), {
+    layout: "editorial",
+  });
+
+  assert.match(rendered, /class="recent-work-item"/);
+  assert.match(rendered, /class="recent-work-tags"/);
+  assert.doesNotMatch(rendered, /d-item|d-tags/);
+});
+
 test("renderRecentWork supports zero, one, and four item artifacts", () => {
   const empty = renderRecentWork(readFixture("recent-work-empty.json"));
   const one = renderRecentWork(readFixture("recent-work-one.json"));

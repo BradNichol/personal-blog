@@ -84,43 +84,43 @@ const renderItem = (item) => `
     </div>
   </article>`;
 
-const renderFieldSignalTags = (tags) => {
+const renderRecentWorkTags = (tags) => {
   if (tags.length === 0) {
     return "";
   }
 
-  return `<div class="d-tags">${tags
+  return `<div class="recent-work-tags">${tags
     .map((tag) => `<span>${escapeHtml(tag)}</span>`)
     .join("")}</div>`;
 };
 
-const renderFieldSignalItem = (item, index) => `
-  <article class="d-item">
-    <div class="d-item-number">${String(index + 1).padStart(2, "0")}</div>
-    <div class="d-item-content">
+const renderRecentWorkItem = (item, index) => `
+  <article class="recent-work-item">
+    <div class="recent-work-item-number">${String(index + 1).padStart(2, "0")}</div>
+    <div class="recent-work-item-content">
       <h3>${escapeHtml(item.title)}</h3>
       <p>${escapeHtml(item.summary)}</p>
-      ${renderFieldSignalTags(item.tags)}
+      ${renderRecentWorkTags(item.tags)}
     </div>
-    <div class="d-item-meta">
-      <time class="d-item-date" datetime="${escapeHtml(item.date)}">${escapeHtml(formatCalendarDate(item.date))}</time>
-      <span class="d-item-kind">${escapeHtml(ACTIVITY_TYPE_LABELS[item.type])}</span>
+    <div class="recent-work-item-meta">
+      <time class="recent-work-item-date" datetime="${escapeHtml(item.date)}">${escapeHtml(formatCalendarDate(item.date))}</time>
+      <span class="recent-work-item-kind">${escapeHtml(ACTIVITY_TYPE_LABELS[item.type])}</span>
     </div>
   </article>`;
 
-const renderFieldSignalWork = (artifact) => {
+const renderEditorialRecentWork = (artifact) => {
   const items = selectRecentWork(artifact);
 
   if (items.length === 0) {
-    return '<p class="d-empty">No recent work to share right now.</p>';
+    return '<p class="recent-work-empty">No recent work to share right now.</p>';
   }
 
-  return `<div class="d-items">${items.map(renderFieldSignalItem).join("")}\n</div>`;
+  return `<div class="recent-work-items">${items.map(renderRecentWorkItem).join("")}\n</div>`;
 };
 
 export const renderRecentWork = (artifact, options = {}) => {
-  if (options.variant === "field-signal") {
-    return renderFieldSignalWork(artifact);
+  if (options.layout === "editorial") {
+    return renderEditorialRecentWork(artifact);
   }
 
   const items = selectRecentWork(artifact);
@@ -132,8 +132,8 @@ export const renderRecentWork = (artifact, options = {}) => {
   return `<div class="activity-list">${items.map(renderItem).join("")}\n</div>`;
 };
 
-const renderUnavailable = (variant) => variant === "field-signal"
-  ? '<p class="d-empty">Recent work is temporarily unavailable.</p>'
+const renderUnavailable = (layout) => layout === "editorial"
+  ? '<p class="recent-work-empty">Recent work is temporarily unavailable.</p>'
   : '<p class="activity-empty">Recent work is temporarily unavailable.</p>';
 
 const updateRecentWork = async () => {
@@ -143,7 +143,7 @@ const updateRecentWork = async () => {
     return;
   }
 
-  const variant = container.dataset.recentWorkVariant;
+  const layout = container.dataset.recentWorkLayout;
 
   try {
     const response = await fetch("/data/recent-work.json");
@@ -153,14 +153,14 @@ const updateRecentWork = async () => {
     }
 
     const artifact = await response.json();
-    container.innerHTML = renderRecentWork(artifact, { variant });
+    container.innerHTML = renderRecentWork(artifact, { layout });
 
     const updatedAt = document.querySelector("[data-recent-work-updated]");
     if (updatedAt && isCalendarDate(artifact?.updatedAt)) {
       updatedAt.textContent = `Updated ${formatCalendarDate(artifact.updatedAt)}`;
     }
   } catch {
-    container.innerHTML = renderUnavailable(variant);
+    container.innerHTML = renderUnavailable(layout);
   }
 };
 
