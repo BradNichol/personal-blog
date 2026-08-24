@@ -1,10 +1,10 @@
-# Field Signal design system
+# Personal site design system
 
 This is the visual and content contract for Bradley Nichol’s personal site. Read it before changing any HTML, CSS, copy, imagery, or interaction under `public/`.
 
 ## Thesis
 
-Field Signal is a dark editorial field notebook for a backend engineer: technical work is the signal, while mountains, trail running, camping, photography, weather, and light provide the surrounding atmosphere.
+The site is a dark editorial notebook for a backend engineer: technical work is central, while mountains, trail running, camping, photography, weather, and light provide the surrounding atmosphere.
 
 The site should feel deliberate, quiet, tactile, and useful. It is a personal digital space first, a technical work log second, and a product showcase when there is a current build worth explaining.
 
@@ -41,7 +41,7 @@ The three typefaces have distinct jobs:
 
 - `DM Sans` carries the engineering identity: hero headline, navigation, body copy, list titles, and functional headings.
 - `Instrument Serif` adds the editorial voice: section headings, product model names, and reflective closing copy.
-- `DM Mono` supplies the field-note instrumentation: labels, timestamps, statuses, numbering, tags, and compact navigation text.
+- `DM Mono` supplies the technical instrumentation: labels, timestamps, statuses, numbering, tags, and compact navigation text.
 
 Keep the type hierarchy strong and sparse. Use large display scale, tight leading, and negative tracking for major headings. Supporting copy should remain short and readable rather than becoming a second headline.
 
@@ -60,12 +60,12 @@ The Google Fonts import in the page `<head>` must include these families and the
 
 The homepage has four distinct responsibilities:
 
-1. **Hero** — establish Bradley’s backend engineering identity and connect the work to the field signals of trail, camping, mountains, and photography.
+1. **Hero** — establish Bradley’s backend engineering identity and connect the work to his interests in trail running, camping, mountains, and photography.
 2. **Current build** — explain RotationLab as a mobile application for runners. Its core model is `Shoe / Gear`; activity evidence, attribution, and mileage history are supporting concepts. This is a stable product spotlight, not an activity feed.
 3. **Recent Work** — display the latest technical work as a compact, data-driven stream. Keep it conceptually separate from RotationLab and do not turn it into a product dashboard.
 4. **Afterword / contact** — close with a short personal line and a clear channel to contact Bradley.
 
-The contact page inherits the same Field Signal shell, tokens, typography, links, and tone.
+The contact page inherits the same site shell, tokens, typography, links, and tone.
 
 ## Content boundaries
 

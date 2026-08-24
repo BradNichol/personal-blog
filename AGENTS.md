@@ -14,4 +14,4 @@ This is a single-context repo with root `CONTEXT.md` and `docs/adr/`. See `docs/
 
 ### Website design system
 
-Before changing any HTML, CSS, copy, imagery, layout, or interaction under `public/`, read `docs/design-system.md`. It is the mandatory Field Signal design contract: reuse its tokens and typography, preserve the homepage’s separation between Current build and Recent Work, and complete its change checklist before handing off the work.
+Before changing any HTML, CSS, copy, imagery, layout, or interaction under `public/`, read `docs/design-system.md`. It is the mandatory personal-site design contract: reuse its tokens and typography, preserve the homepage’s separation between Current build and Recent Work, and complete its change checklist before handing off the work.
