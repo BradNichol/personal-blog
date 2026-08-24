@@ -21,4 +21,5 @@ For first-time setup, run `bash scripts/activity/setup-local.sh`. The wizard
 creates a shell-readable configuration at
 `~/.config/personal-blog/activity.env` (or `$ACTIVITY_CONFIG_FILE`) and keeps
 credentials outside the repository. Load it with the command shown at the end
-of the wizard before running the publication workflow.
+of the wizard before running direct commands; the publish-recent-work skill
+loads this configuration automatically.

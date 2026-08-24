@@ -50,6 +50,11 @@ repositories with only Metadata and Pull requests read permissions. The
 [GitHub token guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 describes the current token-creation flow.
 
+The publication skill automatically loads this external configuration through
+`scripts/activity/run-with-config.sh` when no activity variables are already
+present. Direct manual invocations should either use that wrapper or source the
+configuration in the current shell.
+
 The local runner may commit and push only the sanitized artifact when that
 side effect is explicitly authorized. `scripts/activity/commit.mjs` refuses to
 commit when any other tracked or untracked file is changed; pass `--push` only

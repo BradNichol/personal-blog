@@ -17,6 +17,8 @@ jobs:
       - run: test -f skills/publish-recent-work/agents/openai.yaml
       - run: test -x scripts/activity/setup-local.sh
       - run: bash -n scripts/activity/setup-local.sh
+      - run: test -x scripts/activity/run-with-config.sh
+      - run: bash -n scripts/activity/run-with-config.sh
       - run: node --test tests/recent-work.test.mjs
       - run: node --test tests/activity-pipeline.test.mjs
       - run: node --test tests/github-extractor.test.mjs
