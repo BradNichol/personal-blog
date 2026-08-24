@@ -307,9 +307,8 @@ button:focus-visible {
 
 .current-build-body {
   display: grid;
-  grid-template-columns: minmax(0, 0.78fr) minmax(320px, 1fr);
-  gap: 8vw;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 56px;
 }
 
 .current-build-copy h2 {
@@ -335,82 +334,70 @@ button:focus-visible {
   color: var(--acid);
 }
 
-.current-build-stack {
-  min-width: 0;
-}
-
-.current-build-core {
+.current-build-media {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 18px;
-  padding: 19px 0 25px;
+  grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  width: 100%;
+  padding-top: 24px;
   border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line-soft);
 }
 
-.current-build-core > span {
-  color: var(--acid);
-  font: 11px/1 var(--mono);
-}
-
-.current-build-core h3 {
-  margin: -8px 0 8px;
-  color: var(--acid);
-  font: 400 clamp(2.2rem, 4vw, 4.8rem)/0.9 var(--serif);
-  letter-spacing: -0.045em;
-}
-
-.current-build-core p {
-  max-width: 440px;
+.current-build-visual {
+  width: min(100%, 240px);
   margin: 0;
-  color: var(--muted);
-  font-size: 13px;
 }
 
-.current-build-flow {
-  border-top: 1px solid var(--line);
+.current-build-visual-frame {
+  overflow: hidden;
+  aspect-ratio: 0.72;
+  background: var(--line-soft);
 }
 
-.current-build-flow--supporting {
-  margin-top: 28px;
+.current-build-visual-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
 }
 
-.current-build-flow-head {
+.current-build-visual figcaption {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  padding: 13px 0 11px;
+  margin-top: 13px;
   color: var(--muted);
   font: 10px/1 var(--mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.current-build-step {
-  display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 18px;
-  padding: 19px 0 21px;
-  border-bottom: 1px solid var(--line-soft);
+.current-build-visual figcaption span:last-child {
+  color: var(--acid);
 }
 
-.current-build-step > span {
-  color: var(--orange);
-  font: 11px/1 var(--mono);
+.current-build-model {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  min-height: 100%;
+  padding-top: 14px;
 }
 
-.current-build-step h3 {
-  margin: -4px 0 7px;
-  color: var(--paper);
-  font: 500 clamp(1.2rem, 2vw, 1.8rem)/1 var(--sans);
-  letter-spacing: -0.05em;
+.current-build-model > span:first-child {
+  color: var(--acid);
+  font: 400 clamp(1.8rem, 3vw, 3.4rem)/0.9 var(--serif);
+  letter-spacing: -0.045em;
 }
 
-.current-build-step p {
-  max-width: 440px;
-  margin: 0;
+.current-build-model > span:last-child {
   color: var(--muted);
-  font-size: 13px;
+  font: 10px/1.4 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 @keyframes marquee {
@@ -676,8 +663,14 @@ button:focus-visible {
     margin-top: 14px;
   }
 
-  .current-build-flow {
-    margin-top: 54px;
+  .current-build-media {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .current-build-model {
+    min-height: 0;
+    padding-top: 0;
   }
 
   .site-marquee {
