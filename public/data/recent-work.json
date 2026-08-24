@@ -1,27 +1,62 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-23",
+  "updatedAt": "2026-08-24",
   "items": [
     {
       "date": "2026-08-23",
       "type": "building",
-      "title": "Refined boundaries around external data providers.",
-      "summary": "A high-level view of recent work on keeping provider integrations coherent and replaceable.",
-      "tags": ["Java", "Architecture"]
+      "title": "Strengthened activity evidence workflows",
+      "summary": "Improved backend activity evidence handling with clearer attribution, reconciliation, and deterministic timestamps.",
+      "tags": [
+        "Java",
+        "Data"
+      ]
     },
     {
-      "date": "2026-08-21",
+      "date": "2026-08-23",
       "type": "building",
-      "title": "Improved large-file processing in a Java service.",
-      "summary": "Simplified how streamed exports are processed when the input is too large to treat as one in-memory object.",
-      "tags": ["Java", "Streaming"]
+      "title": "Introduced consent-first health setup",
+      "summary": "Improved the health integration experience with provider-neutral onboarding and clearer consent-led setup flows.",
+      "tags": [
+        "Data"
+      ]
+    },
+    {
+      "date": "2026-08-22",
+      "type": "building",
+      "title": "Clarified cross-domain ownership boundaries",
+      "summary": "Documented and enforced clearer ownership contracts across backend modules and persistence boundaries.",
+      "tags": [
+        "Architecture",
+        "Java"
+      ]
     },
     {
       "date": "2026-08-20",
       "type": "building",
-      "title": "Simplified reconciliation for imported activity data.",
-      "summary": "Made asynchronous data flows easier to reason about and keep consistent.",
-      "tags": ["Java", "Data"]
+      "title": "Hardened provider data lifecycles",
+      "summary": "Made provider disconnect and synchronization behavior safer by tightening derived-data handling and removing obsolete integration paths.",
+      "tags": [
+        "Java",
+        "Data"
+      ]
+    },
+    {
+      "date": "2026-08-15",
+      "type": "building",
+      "title": "Improved canonical shoe matching",
+      "summary": "Added exact and fuzzy matching behavior for canonical shoes and organized its behavioral test coverage.",
+      "tags": [
+        "Java",
+        "Data"
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "type": "building",
+      "title": "Refined app settings and support flows",
+      "summary": "Updated account, settings, support, and shoe workflows while aligning the app with its current design direction.",
+      "tags": []
     }
   ]
 }
