@@ -297,7 +297,8 @@ if ! env \
 fi
 
 note "Configuration validated without contacting GitHub."
-note "Load it for a publication run with:"
+note "The publish-recent-work skill loads this config automatically."
+note "For direct manual commands, load it with:"
 printf '  set -a; source %q; set +a\n' "$ENV_FILE"
 note "The existing publish-recent-work workflow still prepares, summarizes, and finalizes the artifact."
 

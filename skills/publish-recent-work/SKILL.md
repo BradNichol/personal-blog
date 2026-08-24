@@ -18,7 +18,12 @@ Prepare and publish the site's Recent work artifact locally without a hard-coded
   - `ACTIVITY_GITHUB_TOKEN_POLICY`: JSON policy matching the credential to the allowlist.
 - Do not configure or request a model-provider API key. The current agent is the summarizer.
 
-If required configuration is missing, stop and report the missing variable without exposing any private value.
+When these activity variables are not already present, run publication commands
+through `scripts/activity/run-with-config.sh`. It automatically loads the
+wizard-managed configuration from `ACTIVITY_CONFIG_FILE` or
+`~/.config/personal-blog/activity.env` without printing its values. Explicit
+environment variables take precedence. If the file and environment are both
+missing, stop and report the missing variable.
 
 ## Workflow
 
@@ -26,7 +31,7 @@ If required configuration is missing, stop and report the missing variable witho
 2. Run:
 
    ```bash
-   node scripts/activity/prepare.mjs --as-of YYYY-MM-DD
+   scripts/activity/run-with-config.sh node scripts/activity/prepare.mjs --as-of YYYY-MM-DD
    ```
 
    Treat the JSON printed by this command as the only model input. It contains the summarization instructions and already-redacted, constrained activity. Do not inspect, save, or echo raw GitHub responses.
@@ -44,7 +49,7 @@ If required configuration is missing, stop and report the missing variable witho
 6. Run:
 
    ```bash
-   node scripts/activity/finalize.mjs --as-of YYYY-MM-DD --candidates-file /path/outside/repository/candidates.json
+   scripts/activity/run-with-config.sh node scripts/activity/finalize.mjs --as-of YYYY-MM-DD --candidates-file /path/outside/repository/candidates.json
    ```
 
    This validates the response and atomically writes `public/data/recent-work.json`. A non-zero exit means no publication is authorized.
