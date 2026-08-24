@@ -75,6 +75,71 @@ The contact page inherits the same site shell, tokens, typography, links, and to
 - `Recent Work` may eventually include learning or research notes, but it remains a chronological story of work rather than the product itself.
 - Do not add a photography page, gallery, or outdoor-content section unless explicitly requested.
 
+## Copy and tone of voice
+
+Write in a straightforward, conversational, understated voice.
+
+The site should sound like a real software engineer talking about what he builds and thinks about — not a consultancy, agency, startup landing page, or LinkedIn personal brand.
+
+### Prefer
+
+- Plain language over polished marketing language.
+- “Building” over “coding” where it better describes the work.
+- Curiosity over certainty.
+- Concrete descriptions of work over self-applied labels.
+- Short, natural sentences.
+- Mildly dry or understated phrasing where it fits.
+- Honest language about work in progress, learning, experimentation, and changing ideas.
+- Letting the work demonstrate qualities like pragmatism and technical depth rather than explicitly claiming them.
+- AI as a tool or way of working, not as an identity or branding pillar.
+
+Good examples:
+
+- “I build software and care how it’s put together.”
+- “Backend engineering, design, side projects, and things I’m learning as I build.”
+- “What I’ve been working on lately.”
+- “The things I’m building and figuring out as I go.”
+- “I’m building a better way to keep track of running shoes.”
+
+### Avoid
+
+- Corporate, consultancy, or agency language.
+- Personal-brand slogans.
+- Thought-leadership language.
+- Overstating expertise or presenting opinions as grand engineering principles.
+- Unnecessary jargon when ordinary language works.
+- Turning simple concepts into abstract product or architecture language.
+- AI hype or phrases that imply AI is the product when it is simply part of the development process.
+
+Avoid phrases in the style of:
+
+- “Pragmatic builder”
+- “Clean code advocate”
+- “Engineering excellence”
+- “Thoughtful conversations”
+- “Grounded in evidence”
+- “Survives contact with production”
+- “Open a channel”
+- “Latest signal”
+- “Developer intelligence”
+- “AI-powered” unless the fact that AI powers the feature is genuinely important to the user
+
+### Editorial language
+
+A small amount of distinctive editorial language is fine where it suits the design, particularly around photography, running, or personal material.
+
+Labels such as `FIELD NOTE 004` can stay. Do not extend those motifs across the whole site: a visual detail should remain a detail rather than becoming a vocabulary system of signals, channels, or field intelligence.
+
+### Voice check
+
+Before adding or changing copy, ask:
+
+> Would Bradley naturally say something close to this when explaining it to another developer?
+
+If it sounds impressive but not natural, simplify it.
+
+The goal is not casualness for its own sake. Copy should still feel considered and technically credible, without sounding written by a marketing team.
+
 ## Interaction and accessibility
 
 Motion should create presence and hierarchy, not fill space. Preserve the existing restrained marquee, image hover, list-row hover, and entrance reveal patterns. New motion should be short, purposeful, and consistent with `--ease`.
