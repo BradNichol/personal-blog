@@ -1,4 +1,4 @@
-const MAX_ITEMS = 3;
+const MAX_ITEMS = 6;
 const CALENDAR_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const ACTIVITY_TYPE_LABELS = {
   building: "Building",

@@ -13,7 +13,7 @@ const readFixture = (name) => JSON.parse(
   readFileSync(join(fixturesDirectory, name), "utf8"),
 );
 
-test("selectRecentWork returns the latest three valid items in date order", () => {
+test("selectRecentWork returns the latest valid items in date order", () => {
   const selected = selectRecentWork(readFixture("recent-work-three.json"));
 
   assert.deepEqual(
@@ -31,8 +31,26 @@ test("selectRecentWork returns the latest three valid items in date order", () =
         date: "2026-08-20",
         title: "Simplified reconciliation for imported activity data.",
       },
+      {
+        date: "2026-08-17",
+        title: "Strengthened boundaries for scheduled work.",
+      },
     ],
   );
+});
+
+test("selectRecentWork caps the public activity log at six items", () => {
+  const items = Array.from({ length: 7 }, (_, index) => ({
+    date: `2026-08-${String(24 - index).padStart(2, "0")}`,
+    type: "building",
+    title: `Activity note ${index + 1}`,
+    summary: "A public activity note.",
+  }));
+
+  const selected = selectRecentWork({ items });
+
+  assert.equal(selected.length, 6);
+  assert.equal(selected.at(-1).title, "Activity note 6");
 });
 
 test("renderRecentWork shows every public field and escapes item content", () => {
@@ -49,7 +67,7 @@ test("renderRecentWork shows every public field and escapes item content", () =>
   assert.doesNotMatch(rendered, /<safe>/);
 });
 
-test("renderRecentWork supports zero, one, and three item artifacts", () => {
+test("renderRecentWork supports zero, one, and four item artifacts", () => {
   const empty = renderRecentWork(readFixture("recent-work-empty.json"));
   const one = renderRecentWork(readFixture("recent-work-one.json"));
   const three = renderRecentWork(readFixture("recent-work-three.json"));
@@ -57,7 +75,7 @@ test("renderRecentWork supports zero, one, and three item artifacts", () => {
   assert.match(empty, /No recent work to share right now\./);
   assert.equal((empty.match(/<article class="activity-item">/g) ?? []).length, 0);
   assert.equal((one.match(/<article class="activity-item">/g) ?? []).length, 1);
-  assert.equal((three.match(/<article class="activity-item">/g) ?? []).length, 3);
+  assert.equal((three.match(/<article class="activity-item">/g) ?? []).length, 4);
   assert.doesNotMatch(one, /Architecture/);
 });
 
