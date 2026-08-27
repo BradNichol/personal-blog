@@ -147,6 +147,38 @@ test("extractGithubActivity removes repository and branch terms before the summa
   assert.match(activity[0].title, /\[redacted\]/u);
 });
 
+test("extractGithubActivity preserves titles with parenthesized issue references", async () => {
+  const extractor = createGithubActivityExtractor({
+    credentialPolicy,
+    token: "read-only-token",
+    apiRoot: "https://api.github.test",
+    fetchImpl: async () => ({
+      ok: true,
+      async json() {
+        return [
+          pullRequest({
+            title: "test: mirror __tests__ structure to per-screen folders (#252)",
+          }),
+          pullRequest({
+            title: "Apply and enforce Screen Composition convention (#250)",
+          }),
+        ];
+      },
+    }),
+  });
+
+  const activity = await extractor.extract({
+    asOf,
+    authorLogin: "bradley",
+    repositoryAllowlist: [repository],
+  });
+
+  assert.deepEqual(activity.map(({ title }) => title), [
+    "test: mirror __tests__ structure to per-screen folders",
+    "Apply and enforce Screen Composition convention",
+  ]);
+});
+
 test("validateRepositoryAllowlist rejects implicit or malformed repository scope", () => {
   assert.deepEqual(validateRepositoryAllowlist([repository]), [repository]);
   assert.throws(

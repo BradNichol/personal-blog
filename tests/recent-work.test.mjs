@@ -77,6 +77,58 @@ test("renderRecentWork supports the editorial production layout", () => {
   assert.doesNotMatch(rendered, /d-item|d-tags/);
 });
 
+test("renderRecentWork displays each supported work type", () => {
+  const rendered = renderRecentWork({
+    items: [
+      {
+        date: "2026-08-23",
+        type: "building",
+        title: "Product change",
+        summary: "Changed product behavior.",
+      },
+      {
+        date: "2026-08-22",
+        type: "testing",
+        title: "Test change",
+        summary: "Improved test coverage.",
+      },
+      {
+        date: "2026-08-21",
+        type: "maintaining",
+        title: "Maintenance change",
+        summary: "Improved ongoing maintenance.",
+      },
+      {
+        date: "2026-08-20",
+        type: "documenting",
+        title: "Documentation change",
+        summary: "Improved documentation.",
+      },
+    ],
+  });
+
+  assert.match(rendered, /Building/);
+  assert.match(rendered, /Testing/);
+  assert.match(rendered, /Maintaining/);
+  assert.match(rendered, /Documenting/);
+});
+
+test("renderRecentWork displays the expanded tag vocabulary", () => {
+  const rendered = renderRecentWork({
+    items: [{
+      date: "2026-08-23",
+      type: "testing",
+      title: "Updated screen tests",
+      summary: "Grouped tests by screen.",
+      tags: ["TypeScript", "Testing", "Refactoring"],
+    }],
+  });
+
+  assert.match(rendered, /<span class="tag">TypeScript<\/span>/);
+  assert.match(rendered, /<span class="tag">Testing<\/span>/);
+  assert.match(rendered, /<span class="tag">Refactoring<\/span>/);
+});
+
 test("renderRecentWork supports zero, one, and four item artifacts", () => {
   const empty = renderRecentWork(readFixture("recent-work-empty.json"));
   const one = renderRecentWork(readFixture("recent-work-one.json"));
@@ -97,7 +149,7 @@ test("renderRecentWork only shows approved tags and caps them at three", () => {
         type: "building",
         title: "Kept public labels consistent",
         summary: "Used the approved vocabulary for the public projection.",
-        tags: ["Java", "Uncontrolled", "Architecture", "Data", "Streaming"],
+        tags: ["Java", "Uncontrolled", "Architecture", "Data", "Streaming", "Refactoring"],
       },
     ],
   });

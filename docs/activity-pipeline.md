@@ -26,9 +26,12 @@ identity.
 
 The model response is only a proposal. `scripts/activity/contract.mjs`
 deterministically rejects malformed, over-specific, ambiguous, denylisted, or
-uncontrolled content. Rejected proposals are dropped. A failed preparation,
-summarization, validation, or finalization leaves the existing artifact
-unchanged because the finalizer writes only after validation.
+uncontrolled content. Public entries may use the `building`, `testing`,
+`maintaining`, or `documenting` type. Public tags are limited to `Architecture`,
+`Data`, `Java`, `Streaming`, `TypeScript`, `Testing`, and `Refactoring`.
+Rejected proposals are dropped. A failed preparation, summarization, validation,
+or finalization leaves the existing artifact unchanged because the finalizer
+writes only after validation.
 
 Required local configuration is supplied through the environment and must not
 be committed:

@@ -1,12 +1,20 @@
 import { hasUnsafeText } from "./text.mjs";
 
 export const PUBLIC_ARTIFACT_VERSION = 1;
-export const PUBLIC_ACTIVITY_TYPE = "building";
+export const PUBLIC_ACTIVITY_TYPES = Object.freeze([
+  "building",
+  "testing",
+  "maintaining",
+  "documenting",
+]);
 export const APPROVED_TAGS = Object.freeze([
   "Architecture",
   "Data",
   "Java",
   "Streaming",
+  "TypeScript",
+  "Testing",
+  "Refactoring",
 ]);
 
 export const MAX_PUBLIC_ITEMS = 7;
@@ -91,7 +99,7 @@ export const validatePublicCandidate = (candidate, options = {}) => {
     errors.push("date-stale");
   }
 
-  if (candidate.type !== PUBLIC_ACTIVITY_TYPE) {
+  if (!PUBLIC_ACTIVITY_TYPES.includes(candidate.type)) {
     errors.push("type-unsupported");
   }
 

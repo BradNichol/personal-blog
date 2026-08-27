@@ -4,6 +4,8 @@ import {
   aggregateRelatedActivity,
   buildSummarizerInput,
   createPublicArtifact,
+  MODEL_INSTRUCTIONS,
+  PUBLIC_ACTIVITY_TYPES,
   selectEligiblePullRequests,
   validatePublicCandidate,
   validatePublicArtifact,
@@ -49,6 +51,39 @@ const safeCandidate = {
   summary: "Simplified streamed processing for large inputs.",
   tags: ["Java", "Streaming"],
 };
+
+test("summarizer instructions require plain-language outcomes", () => {
+  assert.match(MODEL_INSTRUCTIONS, /general reader/u);
+  assert.match(MODEL_INSTRUCTIONS, /plain English/u);
+  assert.match(MODEL_INSTRUCTIONS, /concrete verbs/u);
+  assert.match(MODEL_INSTRUCTIONS, /Avoid buzzwords/u);
+});
+
+test("public contract accepts each supported work type", () => {
+  assert.deepEqual(PUBLIC_ACTIVITY_TYPES, [
+    "building",
+    "testing",
+    "maintaining",
+    "documenting",
+  ]);
+
+  for (const type of PUBLIC_ACTIVITY_TYPES) {
+    assert.equal(
+      validatePublicCandidate({ ...safeCandidate, type }, { denylist: DENYLIST }).valid,
+      true,
+    );
+  }
+});
+
+test("public contract accepts the expanded tag vocabulary", () => {
+  assert.equal(
+    validatePublicCandidate({
+      ...safeCandidate,
+      tags: ["TypeScript", "Testing", "Refactoring"],
+    }, { denylist: DENYLIST }).valid,
+    true,
+  );
+});
 
 test("selectEligiblePullRequests keeps only authored, merged, allowlisted master activity in the window", () => {
   const selected = selectEligiblePullRequests([
@@ -168,6 +203,22 @@ test("buildSummarizerInput exposes only the constrained model boundary", () => {
   ]);
   assert.doesNotMatch(serialized, /fictional-service|fictional-product|private\.example|worker\.java|feature\/private-work|#42|\b42\b/);
   assert.doesNotMatch(serializedGroups, /repository|authorLogin|targetBranch|additions|deletions|changedFiles/);
+});
+
+test("buildSummarizerInput exposes approved language tags", () => {
+  const input = buildSummarizerInput([{
+    theme: ["TypeScript"],
+    events: [{
+      date: "2026-08-27",
+      title: "Grouped screen tests by screen",
+      description: "Put each screen’s tests together so they’re easier to find.",
+      labels: [],
+      language: "TypeScript",
+      sizeBucket: "medium",
+    }],
+  }]);
+
+  assert.deepEqual(input.groups[0].events[0].labels, ["TypeScript"]);
 });
 
 test("buildSummarizerInput redacts source-code and diff-shaped text", () => {
