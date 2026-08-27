@@ -2,8 +2,18 @@ const MAX_ITEMS = 6;
 const CALENDAR_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const ACTIVITY_TYPE_LABELS = {
   building: "Building",
+  testing: "Testing",
+  maintaining: "Maintaining",
+  documenting: "Documenting",
 };
-const APPROVED_TAGS = new Set(["Architecture", "Data", "Java", "Streaming"]);
+const APPROVED_TAGS = new Set([
+  "Architecture",
+  "Data",
+  "Java",
+  "TypeScript",
+  "Testing",
+  "Refactoring",
+]);
 
 const isCalendarDate = (value) => {
   if (typeof value !== "string" || !CALENDAR_DATE_PATTERN.test(value)) {

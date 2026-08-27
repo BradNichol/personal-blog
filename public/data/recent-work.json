@@ -1,62 +1,78 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-24",
+  "updatedAt": "2026-08-27",
   "items": [
     {
-      "date": "2026-08-23",
-      "type": "building",
-      "title": "Strengthened activity evidence workflows",
-      "summary": "Improved backend activity evidence handling with clearer attribution, reconciliation, and deterministic timestamps.",
+      "date": "2026-08-27",
+      "type": "testing",
+      "title": "Grouped screen tests by screen",
+      "summary": "Put each screen’s tests together so they’re easier to find.",
       "tags": [
-        "Java",
-        "Data"
+        "TypeScript",
+        "Testing",
+        "Refactoring"
       ]
     },
     {
-      "date": "2026-08-23",
-      "type": "building",
-      "title": "Introduced consent-first health setup",
-      "summary": "Improved the health integration experience with provider-neutral onboarding and clearer consent-led setup flows.",
+      "date": "2026-08-27",
+      "type": "maintaining",
+      "title": "Made screens follow one structure",
+      "summary": "Made screens follow the same structure across the app.",
       "tags": [
-        "Data"
-      ]
-    },
-    {
-      "date": "2026-08-22",
-      "type": "building",
-      "title": "Clarified cross-domain ownership boundaries",
-      "summary": "Documented and enforced clearer ownership contracts across backend modules and persistence boundaries.",
-      "tags": [
+        "TypeScript",
         "Architecture",
-        "Java"
+        "Refactoring"
       ]
     },
     {
-      "date": "2026-08-20",
+      "date": "2026-08-25",
       "type": "building",
-      "title": "Hardened provider data lifecycles",
-      "summary": "Made provider disconnect and synchronization behavior safer by tightening derived-data handling and removing obsolete integration paths.",
+      "title": "Explained pending attribution steps",
+      "summary": "Explained how to handle pending attribution one step at a time.",
+      "tags": [
+        "TypeScript"
+      ]
+    },
+    {
+      "date": "2026-08-23",
+      "type": "building",
+      "title": "Asked before connecting health data",
+      "summary": "Added a setup flow that asks before connecting health data.",
+      "tags": [
+        "TypeScript",
+        "Data"
+      ]
+    },
+    {
+      "date": "2026-08-23",
+      "type": "building",
+      "title": "Improved activity evidence handling",
+      "summary": "Made it easier to link activity evidence to the right gear and keep mileage current.",
       "tags": [
         "Java",
         "Data"
       ]
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-23",
+      "type": "documenting",
+      "title": "Documented how the app is structured",
+      "summary": "Wrote down how the app’s main parts fit together.",
+      "tags": [
+        "TypeScript",
+        "Java",
+        "Architecture"
+      ]
+    },
+    {
+      "date": "2026-08-21",
       "type": "building",
-      "title": "Improved canonical shoe matching",
-      "summary": "Added exact and fuzzy matching behavior for canonical shoes and organized its behavioral test coverage.",
+      "title": "Reconciled collected activity",
+      "summary": "Added a way to reconcile collected activity with the backend.",
       "tags": [
         "Java",
         "Data"
       ]
-    },
-    {
-      "date": "2026-07-28",
-      "type": "building",
-      "title": "Refined app settings and support flows",
-      "summary": "Updated account, settings, support, and shoe workflows while aligning the app with its current design direction.",
-      "tags": []
     }
   ]
 }

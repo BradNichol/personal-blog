@@ -10,6 +10,7 @@ const CODE_FENCE_PATTERN = /```[\s\S]*?```/gu;
 const DIFF_PATTERN = /(?:^|\n)\s*(?:diff --git|@@\s+-\d|(?:---|\+\+\+)\s+\S)/mu;
 const CODE_PUNCTUATION_PATTERN = /[{};]/u;
 const CODE_CALL_PATTERN = /\b(?:if|for|while|switch|catch)\s*\([^)]*\)|\b[A-Za-z_$][\w$]*\s*\([^)]*\)/u;
+const ISSUE_REFERENCE_PATTERN = /\s*\((?:#|\b(?:GH|PR)-)\d+\)/giu;
 const EXACT_COUNT_PATTERN = /\b\d[\d,.]*\s*(?:files?|lines?|commits?|pull requests?|records?|events?|items?|endpoints?)\b/iu;
 const WORDED_COUNT_PATTERN = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten)\s+(?:files?|lines?|commits?|pull requests?|records?|events?|items?|endpoints?)\b/iu;
 const STANDALONE_NUMBER_PATTERN = /\b\d[\d,.]*\b/u;
@@ -76,6 +77,7 @@ export const redactText = (value, privateTerms = []) => {
   }
 
   const normalized = result
+    .replace(ISSUE_REFERENCE_PATTERN, "")
     .replace(URL_PATTERN, REDACTED)
     .replace(BRANCH_PATTERN, REDACTED)
     .replace(PATH_PATTERN, REDACTED)

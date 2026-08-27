@@ -4,6 +4,8 @@ import {
   aggregateRelatedActivity,
   buildSummarizerInput,
   createPublicArtifact,
+  MODEL_INSTRUCTIONS,
+  PUBLIC_ACTIVITY_TYPES,
   selectEligiblePullRequests,
   validatePublicCandidate,
   validatePublicArtifact,
@@ -20,7 +22,7 @@ const eligibleSource = [
     mergedAt: "2026-08-23T10:15:00Z",
     title: "Improved streamed processing for large inputs",
     body: "Kept the processing boundary easier to reason about.",
-    labels: [{ name: "Streaming" }, { name: "uncontrolled-private-label" }],
+    labels: [{ name: "Architecture" }, { name: "uncontrolled-private-label" }],
     language: "Java",
     additions: 420,
     deletions: 18,
@@ -47,8 +49,48 @@ const safeCandidate = {
   type: "building",
   title: "Improved large-file processing",
   summary: "Simplified streamed processing for large inputs.",
-  tags: ["Java", "Streaming"],
+  tags: ["Java", "Data"],
 };
+
+test("summarizer instructions require plain-language outcomes", () => {
+  assert.match(MODEL_INSTRUCTIONS, /general reader/u);
+  assert.match(MODEL_INSTRUCTIONS, /plain English/u);
+  assert.match(MODEL_INSTRUCTIONS, /concrete verbs/u);
+  assert.match(MODEL_INSTRUCTIONS, /Avoid buzzwords/u);
+});
+
+test("public contract accepts each supported work type", () => {
+  assert.deepEqual(PUBLIC_ACTIVITY_TYPES, [
+    "building",
+    "testing",
+    "maintaining",
+    "documenting",
+  ]);
+
+  for (const type of PUBLIC_ACTIVITY_TYPES) {
+    assert.equal(
+      validatePublicCandidate({ ...safeCandidate, type }, { denylist: DENYLIST }).valid,
+      true,
+    );
+  }
+});
+
+test("public contract accepts the expanded tag vocabulary", () => {
+  assert.equal(
+    validatePublicCandidate({
+      ...safeCandidate,
+      tags: ["TypeScript", "Testing", "Refactoring"],
+    }, { denylist: DENYLIST }).valid,
+    true,
+  );
+  assert.equal(
+    validatePublicCandidate({
+      ...safeCandidate,
+      tags: ["Streaming"],
+    }, { denylist: DENYLIST }).valid,
+    false,
+  );
+});
 
 test("selectEligiblePullRequests keeps only authored, merged, allowlisted master activity in the window", () => {
   const selected = selectEligiblePullRequests([
@@ -96,7 +138,7 @@ test("selectEligiblePullRequests keeps only authored, merged, allowlisted master
     {
       date: "2026-08-23",
       title: "Improved streamed processing for large inputs",
-      labels: ["Streaming"],
+      labels: ["Architecture"],
       language: "Java",
       sizeBucket: "large",
     },
@@ -132,7 +174,7 @@ test("aggregateRelatedActivity groups related events without retaining source me
 
   assert.equal(groups.length, 2);
   assert.deepEqual(groups[0].events.map(({ date }) => date), ["2026-08-23", "2026-08-22"]);
-  assert.deepEqual(groups[0].theme, ["Streaming"]);
+  assert.deepEqual(groups[0].theme, ["Architecture"]);
   assert.equal("repository" in groups[0].events[0], false);
   assert.equal("authorLogin" in groups[0].events[0], false);
 });
@@ -168,6 +210,22 @@ test("buildSummarizerInput exposes only the constrained model boundary", () => {
   ]);
   assert.doesNotMatch(serialized, /fictional-service|fictional-product|private\.example|worker\.java|feature\/private-work|#42|\b42\b/);
   assert.doesNotMatch(serializedGroups, /repository|authorLogin|targetBranch|additions|deletions|changedFiles/);
+});
+
+test("buildSummarizerInput exposes approved language tags", () => {
+  const input = buildSummarizerInput([{
+    theme: ["TypeScript"],
+    events: [{
+      date: "2026-08-27",
+      title: "Grouped screen tests by screen",
+      description: "Put each screen’s tests together so they’re easier to find.",
+      labels: [],
+      language: "TypeScript",
+      sizeBucket: "medium",
+    }],
+  }]);
+
+  assert.deepEqual(input.groups[0].events[0].labels, ["TypeScript"]);
 });
 
 test("buildSummarizerInput redacts source-code and diff-shaped text", () => {

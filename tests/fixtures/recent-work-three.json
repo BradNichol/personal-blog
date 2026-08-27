@@ -21,7 +21,7 @@
       "type": "building",
       "title": "Improved large-file processing in a Java service.",
       "summary": "Simplified how streamed exports are processed when the input is too large to treat as one in-memory object.",
-      "tags": ["Java", "Streaming"]
+      "tags": ["Java", "Data"]
     },
     {
       "date": "2026-08-23",

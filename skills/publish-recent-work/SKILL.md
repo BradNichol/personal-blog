@@ -40,10 +40,10 @@ missing, stop and report the missing variable.
 4. Otherwise, summarize the prepared input with the current agent. Return only JSON in this shape:
 
    ```json
-   {"items":[{"date":"YYYY-MM-DD","type":"building","title":"...","summary":"...","tags":["..."]}]}
+   {"items":[{"date":"YYYY-MM-DD","type":"testing","title":"...","summary":"...","tags":["..."]}]}
    ```
 
-   Use completed, neutral, high-level language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags. Treat the validator as final authority.
+   Choose `building` for product changes, `testing` for test work, `maintaining` for refactoring or quality work, and `documenting` for documentation. Use completed, neutral, plain language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags: `Architecture`, `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`. Treat the validator as final authority.
 
 5. Write the candidate JSON to a temporary file outside the repository. Do not commit or leave candidate, prompt, or prepared-input files in the repository.
 6. Run:

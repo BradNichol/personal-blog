@@ -42,7 +42,7 @@ const safeCandidate = {
   type: "building",
   title: "Improved large-file processing",
   summary: "Simplified streamed processing for large inputs.",
-  tags: ["Java", "Streaming"],
+  tags: ["Java", "Data"],
 };
 
 const finalizeScript = join(
@@ -70,7 +70,7 @@ test("prepareActivityInput gives the current agent only the constrained summariz
             merged_at: "2026-08-23T10:15:00Z",
             title: "Improved allowed-service processing",
             body: "Merged feature/private-work for fictional-client.",
-            labels: [{ name: "Streaming" }],
+            labels: [{ name: "Data" }],
             additions: 420,
             deletions: 18,
             changed_files: 14,
