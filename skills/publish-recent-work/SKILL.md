@@ -43,7 +43,7 @@ missing, stop and report the missing variable.
    {"items":[{"date":"YYYY-MM-DD","type":"testing","title":"...","summary":"...","tags":["..."]}]}
    ```
 
-   Choose `building` for product changes, `testing` for test work, `maintaining` for refactoring or quality work, and `documenting` for documentation. Use completed, neutral, plain language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags: `Architecture`, `Data`, `Java`, `Streaming`, `TypeScript`, `Testing`, and `Refactoring`. Treat the validator as final authority.
+   Choose `building` for product changes, `testing` for test work, `maintaining` for refactoring or quality work, and `documenting` for documentation. Use completed, neutral, plain language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags: `Architecture`, `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`. Treat the validator as final authority.
 
 5. Write the candidate JSON to a temporary file outside the repository. Do not commit or leave candidate, prompt, or prepared-input files in the repository.
 6. Run:

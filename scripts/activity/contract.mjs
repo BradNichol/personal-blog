@@ -11,7 +11,6 @@ export const APPROVED_TAGS = Object.freeze([
   "Architecture",
   "Data",
   "Java",
-  "Streaming",
   "TypeScript",
   "Testing",
   "Refactoring",

@@ -10,7 +10,6 @@ const APPROVED_TAGS = new Set([
   "Architecture",
   "Data",
   "Java",
-  "Streaming",
   "TypeScript",
   "Testing",
   "Refactoring",

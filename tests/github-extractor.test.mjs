@@ -24,7 +24,7 @@ const pullRequest = (overrides = {}) => ({
   title: "Improved streamed processing for large inputs",
   body: "Kept the processing boundary easier to reason about.",
   labels: [
-    { name: "Streaming" },
+    { name: "Data" },
     { name: "private-label" },
   ],
   additions: 420,
@@ -67,7 +67,7 @@ test("extractGithubActivity keeps only eligible allowlisted pull requests", asyn
     date: "2026-08-23",
     title: "Improved streamed processing for large inputs",
     description: "Kept the processing boundary easier to reason about.",
-    labels: ["Streaming"],
+    labels: ["Data"],
     language: "Java",
     sizeBucket: "large",
   }]);

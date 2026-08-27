@@ -22,7 +22,7 @@ const eligibleSource = [
     mergedAt: "2026-08-23T10:15:00Z",
     title: "Improved streamed processing for large inputs",
     body: "Kept the processing boundary easier to reason about.",
-    labels: [{ name: "Streaming" }, { name: "uncontrolled-private-label" }],
+    labels: [{ name: "Architecture" }, { name: "uncontrolled-private-label" }],
     language: "Java",
     additions: 420,
     deletions: 18,
@@ -49,7 +49,7 @@ const safeCandidate = {
   type: "building",
   title: "Improved large-file processing",
   summary: "Simplified streamed processing for large inputs.",
-  tags: ["Java", "Streaming"],
+  tags: ["Java", "Data"],
 };
 
 test("summarizer instructions require plain-language outcomes", () => {
@@ -82,6 +82,13 @@ test("public contract accepts the expanded tag vocabulary", () => {
       tags: ["TypeScript", "Testing", "Refactoring"],
     }, { denylist: DENYLIST }).valid,
     true,
+  );
+  assert.equal(
+    validatePublicCandidate({
+      ...safeCandidate,
+      tags: ["Streaming"],
+    }, { denylist: DENYLIST }).valid,
+    false,
   );
 });
 
@@ -131,7 +138,7 @@ test("selectEligiblePullRequests keeps only authored, merged, allowlisted master
     {
       date: "2026-08-23",
       title: "Improved streamed processing for large inputs",
-      labels: ["Streaming"],
+      labels: ["Architecture"],
       language: "Java",
       sizeBucket: "large",
     },
@@ -167,7 +174,7 @@ test("aggregateRelatedActivity groups related events without retaining source me
 
   assert.equal(groups.length, 2);
   assert.deepEqual(groups[0].events.map(({ date }) => date), ["2026-08-23", "2026-08-22"]);
-  assert.deepEqual(groups[0].theme, ["Streaming"]);
+  assert.deepEqual(groups[0].theme, ["Architecture"]);
   assert.equal("repository" in groups[0].events[0], false);
   assert.equal("authorLogin" in groups[0].events[0], false);
 });

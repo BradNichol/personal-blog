@@ -10,7 +10,7 @@ export const MODEL_INSTRUCTIONS = "Return a JSON object with an items array. "
   + "Prefer concrete verbs such as added, removed, moved, grouped, fixed, or simplified. "
   + "Avoid buzzwords, vague wording, and internal architecture terms. "
   + "Choose the type that best fits the work: building for product changes, testing for test work, maintaining for refactoring or quality work, and documenting for documentation. "
-  + "Use only these approved tags when they fit: Architecture, Data, Java, Streaming, TypeScript, Testing, and Refactoring. "
+  + "Use only these approved tags when they fit: Architecture, Data, Java, TypeScript, Testing, and Refactoring. "
   + "Use concise neutral completed-outcome language and only the approved labels as tags. "
   + "Do not include source-control, repository, personal, URL, path, identifier, or exact-count details.";
 

@@ -7,7 +7,7 @@
       "type": "building",
       "title": "Improved large-file processing in a Java service.",
       "summary": "Simplified streamed processing for large inputs.",
-      "tags": ["Java", "Streaming"]
+      "tags": ["Java", "Data"]
     }
   ]
 }

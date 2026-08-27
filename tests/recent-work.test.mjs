@@ -63,7 +63,7 @@ test("renderRecentWork shows every public field and escapes item content", () =>
   assert.match(rendered, /Building/);
   assert.match(rendered, /Improved &lt;safe&gt; processing &amp; review/);
   assert.match(rendered, /Simplified streamed processing for large inputs\./);
-  assert.match(rendered, /<span class="tag">Streaming<\/span>/);
+  assert.match(rendered, /<span class="tag">Data<\/span>/);
   assert.doesNotMatch(rendered, /<safe>/);
 });
 
