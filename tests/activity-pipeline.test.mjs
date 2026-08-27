@@ -57,6 +57,7 @@ test("summarizer instructions require plain-language outcomes", () => {
   assert.match(MODEL_INSTRUCTIONS, /plain English/u);
   assert.match(MODEL_INSTRUCTIONS, /concrete verbs/u);
   assert.match(MODEL_INSTRUCTIONS, /Avoid buzzwords/u);
+  assert.match(MODEL_INSTRUCTIONS, /groupIds/u);
 });
 
 test("public contract accepts each supported work type", () => {
@@ -157,7 +158,7 @@ test("selectEligiblePullRequests keeps only authored, merged, allowlisted master
   assert.equal("changedFiles" in selected[0], false);
 });
 
-test("aggregateRelatedActivity groups related events without retaining source metadata", () => {
+test("aggregateRelatedActivity keeps source routing separate from event details", () => {
   const relatedActivity = {
     ...eligibleSource[0],
     title: "Strengthened streamed processing boundaries",
@@ -199,7 +200,8 @@ test("buildSummarizerInput exposes only the constrained model boundary", () => {
   const serializedGroups = JSON.stringify(input.groups);
 
   assert.deepEqual(Object.keys(input), ["instructions", "groups"]);
-  assert.deepEqual(Object.keys(input.groups[0]), ["theme", "events"]);
+  assert.deepEqual(Object.keys(input.groups[0]), ["groupId", "theme", "events"]);
+  assert.equal(input.groups[0].groupId, "group-1");
   assert.deepEqual(Object.keys(input.groups[0].events[0]), [
     "date",
     "title",
@@ -210,6 +212,7 @@ test("buildSummarizerInput exposes only the constrained model boundary", () => {
   ]);
   assert.doesNotMatch(serialized, /fictional-service|fictional-product|private\.example|worker\.java|feature\/private-work|#42|\b42\b/);
   assert.doesNotMatch(serializedGroups, /repository|authorLogin|targetBranch|additions|deletions|changedFiles/);
+  assert.doesNotMatch(serializedGroups, /sourceKey/);
 });
 
 test("buildSummarizerInput exposes approved language tags", () => {

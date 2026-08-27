@@ -4,8 +4,12 @@ import { APPROVED_TAGS, isCalendarDate } from "./contract.mjs";
 const VALID_SIZE_BUCKETS = new Set(["small", "medium", "large"]);
 const SAFE_LANGUAGE_PATTERN = /^[A-Za-z][A-Za-z0-9+#.-]{0,30}$/u;
 
+export const groupIdForIndex = (index) => `group-${index + 1}`;
+
 export const MODEL_INSTRUCTIONS = "Return a JSON object with an items array. "
   + "Group related events into three to seven simple building themes when the source supports it. "
+  + "Each output item must include groupIds containing the supplied groupId values it summarises, copied exactly. "
+  + "Every supplied groupId should be covered by one item, although one item may cover related groups. "
   + "Write for a general reader in plain English: describe what changed and why it matters in one short sentence. "
   + "Prefer concrete verbs such as added, removed, moved, grouped, fixed, or simplified. "
   + "Avoid buzzwords, vague wording, and internal architecture terms. "
@@ -42,7 +46,8 @@ const safeDate = (date) => (isCalendarDate(date) ? date : undefined);
 
 export const buildSummarizerInput = (groups, options = {}) => ({
   instructions: MODEL_INSTRUCTIONS,
-  groups: (Array.isArray(groups) ? groups : []).map(({ theme, events }) => ({
+  groups: (Array.isArray(groups) ? groups : []).map(({ theme, events }, index) => ({
+    groupId: groupIdForIndex(index),
     theme: safeTheme(theme),
     events: (Array.isArray(events) ? events : []).map((event) => ({
       date: safeDate(event.date),

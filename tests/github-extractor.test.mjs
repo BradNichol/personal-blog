@@ -15,6 +15,7 @@ const credentialPolicy = {
 };
 
 const pullRequest = (overrides = {}) => ({
+  number: 252,
   user: { login: "bradley" },
   base: {
     ref: "master",
@@ -63,7 +64,8 @@ test("extractGithubActivity keeps only eligible allowlisted pull requests", asyn
     repositoryAllowlist: [repository],
   });
 
-  assert.deepEqual(activity, [{
+  const { sourceKey: _sourceKey, ...publicActivity } = activity[0];
+  assert.deepEqual([publicActivity], [{
     date: "2026-08-23",
     title: "Improved streamed processing for large inputs",
     description: "Kept the processing boundary easier to reason about.",
@@ -71,6 +73,7 @@ test("extractGithubActivity keeps only eligible allowlisted pull requests", asyn
     language: "Java",
     sizeBucket: "large",
   }]);
+  assert.match(activity[0].sourceKey, /^[a-f0-9]{64}$/u);
 
   assert.equal(requests.length, 1);
   assert.equal(requests[0].url.pathname, "/repos/fictional-owner/allowed-service/pulls");

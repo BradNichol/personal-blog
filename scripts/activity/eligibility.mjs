@@ -160,6 +160,7 @@ export const selectEligiblePullRequests = (activities, options = {}) => {
 
       return {
         date,
+        sourceKey: typeof activity.sourceKey === "string" ? activity.sourceKey : undefined,
         title: activity.title.trim(),
         description,
         labels: readLabels(activity.labels),
@@ -182,10 +183,15 @@ export const aggregateRelatedActivity = (activities) => {
     const key = theme.join("|");
 
     if (!grouped.has(key)) {
-      grouped.set(key, { theme, events: [] });
+      grouped.set(key, { theme, sourceKeys: [], events: [] });
     }
 
-    grouped.get(key).events.push({
+    const group = grouped.get(key);
+    if (typeof activity.sourceKey === "string" && !group.sourceKeys.includes(activity.sourceKey)) {
+      group.sourceKeys.push(activity.sourceKey);
+    }
+
+    group.events.push({
       date: activity.date,
       title: activity.title,
       description: activity.description,
@@ -208,8 +214,10 @@ export const aggregateRelatedActivity = (activities) => {
 
   const retained = groups.slice(0, 6);
   const remainder = groups.slice(6).flatMap(({ events }) => events);
+  const remainderSourceKeys = groups.slice(6).flatMap(({ sourceKeys }) => sourceKeys);
   retained.push({
     theme: ["General engineering"],
+    sourceKeys: remainderSourceKeys,
     events: remainder.sort((left, right) => right.date.localeCompare(left.date)),
   });
 

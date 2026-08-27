@@ -1,5 +1,6 @@
 import { selectEligiblePullRequests } from "./eligibility.mjs";
 import { isCalendarDate } from "./contract.mjs";
+import { sourceKeyForPullRequest } from "./state.mjs";
 import { redactText } from "./text.mjs";
 
 export const DEFAULT_GITHUB_API_ROOT = "https://api.github.com";
@@ -126,6 +127,7 @@ const normalizePullRequest = (pullRequest, repository, privateTerms) => {
 
   return {
     type: "pull_request",
+    sourceKey: sourceKeyForPullRequest(repository, pullRequest.number),
     authorLogin,
     repository,
     targetBranch,
@@ -158,6 +160,8 @@ const isPullRequestPayload = (pullRequest) => {
   if (typeof pullRequest.user?.login !== "string"
     || typeof pullRequest.base?.ref !== "string"
     || typeof pullRequest.title !== "string"
+    || !Number.isInteger(pullRequest.number)
+    || pullRequest.number <= 0
     || !Object.hasOwn(pullRequest, "merged_at")) {
     throw new Error("GitHub pull request response contained an incomplete item");
   }
