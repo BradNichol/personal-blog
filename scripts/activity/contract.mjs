@@ -177,6 +177,15 @@ export const validatePublicArtifact = (artifact, options = {}) => {
   return { valid: errors.length === 0, errors };
 };
 
+export const stripCandidateRouting = (candidate) => {
+  if (!isObject(candidate)) {
+    return candidate;
+  }
+
+  const { groupIds: _groupIds, ...publicCandidate } = candidate;
+  return publicCandidate;
+};
+
 export const createPublicArtifact = ({ asOf, candidates, denylist = [] }) => {
   if (!isCalendarDate(asOf)) {
     throw new Error("Cannot create an artifact with an invalid calendar date");
@@ -207,3 +216,17 @@ export const createPublicArtifact = ({ asOf, candidates, denylist = [] }) => {
 
   return artifact;
 };
+
+export const createIncrementalArtifact = ({
+  asOf,
+  existingArtifact,
+  candidates,
+  denylist = [],
+}) => createPublicArtifact({
+  asOf,
+  candidates: [
+    ...(Array.isArray(existingArtifact?.items) ? existingArtifact.items : []),
+    ...(Array.isArray(candidates) ? candidates : []),
+  ],
+  denylist,
+});

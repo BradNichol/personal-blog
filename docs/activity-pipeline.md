@@ -9,20 +9,25 @@ The v1 selector is fixed to Bradley-authored pull requests merged into
 `master` during the rolling 30-day window. Repository names are used only for
 the private allowlist filter and never become model or artifact fields.
 
-The workflow has two deterministic boundaries:
+The workflow has three deterministic boundaries:
 
 1. `scripts/activity/prepare.mjs` fetches the private allowlist with a
-   dedicated read-only credential and prints only the constrained,
-   redacted summarizer input. It never writes raw activity to the repository.
-2. `scripts/activity/finalize.mjs` accepts the current agent's candidate JSON,
-   validates it deterministically, and atomically writes the public artifact.
+   dedicated read-only credential, removes already processed pull requests,
+   and prints only the constrained, redacted summarizer input. It never writes
+   raw activity to the repository.
+2. The private state store records hashed source keys and pending group routing
+   metadata outside the repository. These values are never sent to the model
+   or written to the public artifact.
+3. `scripts/activity/finalize.mjs` accepts the current agent's candidate JSON,
+   validates it deterministically, preserves existing public entries, and
+   atomically writes the public artifact.
 
 The current agent is the summarizer. No language-model provider, endpoint, or
 API key is hard-coded in the repository. The agent receives calendar dates,
-redacted PR title and description text, approved labels, coarse language
-metadata, and broad change-size buckets; it never receives repository names,
-branches, paths, filenames, URLs, identifiers, exact change counts, or author
-identity.
+opaque group routing labels, redacted PR title and description text, approved
+labels, coarse language metadata, and broad change-size buckets; it never
+receives repository names, branches, paths, filenames, URLs, source
+identifiers, exact change counts, or author identity.
 
 The model response is only a proposal. `scripts/activity/contract.mjs`
 deterministically rejects malformed, over-specific, ambiguous, denylisted, or
@@ -31,7 +36,11 @@ uncontrolled content. Public entries may use the `building`, `testing`,
 `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`.
 Rejected proposals are dropped. A failed preparation, summarization, validation,
 or finalization leaves the existing artifact unchanged because the finalizer
-writes only after validation.
+writes only after validation. A successful run appends accepted items to the
+existing artifact and prunes entries outside the rolling window; it does not
+rewrite existing summaries. If there is no new activity, the existing entries
+are retained. An explicit `--full-refresh` flag is available for intentional
+regeneration.
 
 Required local configuration is supplied through the environment and must not
 be committed:
@@ -43,6 +52,9 @@ be committed:
   `fine-grained` or `github-app`, `readOnly: true`, `writeAccess: false`, and a
   `repositories` array exactly matching `ACTIVITY_REPOSITORIES`.
 - `ACTIVITY_DENYLIST`: JSON array of private sensitive terms.
+- `ACTIVITY_STATE_FILE` (optional): path outside the repository for the local
+  processed-activity state. The default is
+  `~/.config/personal-blog/recent-work-state.json`.
 
 For first-time setup, run `bash scripts/activity/setup-local.sh`. The wizard
 stores shell-escaped values at `~/.config/personal-blog/activity.env` (or the
@@ -57,6 +69,12 @@ The publication skill automatically loads this external configuration through
 `scripts/activity/run-with-config.sh` when no activity variables are already
 present. Direct manual invocations should either use that wrapper or source the
 configuration in the current shell.
+
+On the first run after this incremental workflow is installed, an existing
+current artifact is treated as the baseline and its current-window activity is
+marked processed. This avoids duplicating the existing feed. A repository with
+an empty or stale artifact is treated as new and will publish its current
+eligible activity.
 
 The local runner may commit and push only the sanitized artifact when that
 side effect is explicitly authorized. `scripts/activity/commit.mjs` refuses to

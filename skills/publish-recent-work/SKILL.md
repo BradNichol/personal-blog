@@ -16,6 +16,7 @@ Prepare and publish the site's Recent work artifact locally without a hard-coded
   - `ACTIVITY_DENYLIST`: JSON array of private terms.
   - `ACTIVITY_GITHUB_TOKEN`: dedicated read-only GitHub credential.
   - `ACTIVITY_GITHUB_TOKEN_POLICY`: JSON policy matching the credential to the allowlist.
+  - `ACTIVITY_STATE_FILE` (optional): external path for processed-activity state. Defaults to `~/.config/personal-blog/recent-work-state.json`.
 - Do not configure or request a model-provider API key. The current agent is the summarizer.
 
 When these activity variables are not already present, run publication commands
@@ -34,16 +35,19 @@ missing, stop and report the missing variable.
    scripts/activity/run-with-config.sh node scripts/activity/prepare.mjs --as-of YYYY-MM-DD
    ```
 
+   Normal runs are incremental. Use `--full-refresh` only when an intentional
+   regeneration of the complete rolling window is wanted.
+
    Treat the JSON printed by this command as the only model input. It contains the summarization instructions and already-redacted, constrained activity. Do not inspect, save, or echo raw GitHub responses.
 
 3. If `groups` is empty, skip summarization and use `{ "items": [] }` as the candidate response.
 4. Otherwise, summarize the prepared input with the current agent. Return only JSON in this shape:
 
    ```json
-   {"items":[{"date":"YYYY-MM-DD","type":"testing","title":"...","summary":"...","tags":["..."]}]}
+   {"items":[{"groupIds":["group-1"],"date":"YYYY-MM-DD","type":"testing","title":"...","summary":"...","tags":["..."]}]}
    ```
 
-   Choose `building` for product changes, `testing` for test work, `maintaining` for refactoring or quality work, and `documenting` for documentation. Use completed, neutral, plain language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags: `Architecture`, `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`. Treat the validator as final authority.
+   Copy each opaque `groupId` from the prepared input into the item that summarises that group. Every prepared group should be covered once; one item may cover multiple closely related groups. `groupIds` are routing metadata and are removed before publication. Choose `building` for product changes, `testing` for test work, `maintaining` for refactoring or quality work, and `documenting` for documentation. Use completed, neutral, plain language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags: `Architecture`, `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`. Treat the validator as final authority.
 
 5. Write the candidate JSON to a temporary file outside the repository. Do not commit or leave candidate, prompt, or prepared-input files in the repository.
 6. Run:
@@ -52,7 +56,7 @@ missing, stop and report the missing variable.
    scripts/activity/run-with-config.sh node scripts/activity/finalize.mjs --as-of YYYY-MM-DD --candidates-file /path/outside/repository/candidates.json
    ```
 
-   This validates the response and atomically writes `public/data/recent-work.json`. A non-zero exit means no publication is authorized.
+   This validates the response, preserves existing items, appends accepted new items, and atomically writes `public/data/recent-work.json`. A non-zero exit means no publication is authorized. If there is no new activity, the existing artifact is retained.
 7. Confirm the only repository change is `public/data/recent-work.json`, then run the relevant tests. Commit only when the user or the invoking automation explicitly authorizes that side effect:
 
    ```bash
@@ -64,6 +68,9 @@ missing, stop and report the missing variable.
 ## Safety Rules
 
 - Never send raw GitHub payloads, source code, diffs, paths, filenames, branches, repository names, URLs, identifiers, exact counts, denylist contents, or prompts to the public site.
+- Never commit the external processed-activity state or pending routing metadata.
+- Do not use `--full-refresh` for routine publication; it intentionally replaces
+  the current rolling-window entries with the newly summarised result.
 - Never bypass `scripts/activity/finalize.mjs` or publish an unvalidated candidate.
 - Never write private inputs or rejected candidates into the repository.
 - Prefer an empty artifact to an uncertain or unsafe publication.

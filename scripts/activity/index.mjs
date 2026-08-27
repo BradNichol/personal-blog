@@ -8,7 +8,9 @@ export {
   PUBLIC_ARTIFACT_VERSION,
   ROLLING_WINDOW_DAYS,
   createPublicArtifact,
+  createIncrementalArtifact,
   isCalendarDate,
+  stripCandidateRouting,
   validatePublicArtifact,
   validatePublicCandidate,
 } from "./contract.mjs";
