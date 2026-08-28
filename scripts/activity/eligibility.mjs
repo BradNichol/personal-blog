@@ -172,54 +172,24 @@ export const selectEligiblePullRequests = (activities, options = {}) => {
 };
 
 export const aggregateRelatedActivity = (activities) => {
-  const grouped = new Map();
-
-  for (const activity of Array.isArray(activities) ? activities : []) {
-    const theme = activity.labels?.length > 0
-      ? activity.labels
-      : activity.language
-        ? [activity.language]
-        : ["General engineering"];
-    const key = theme.join("|");
-
-    if (!grouped.has(key)) {
-      grouped.set(key, { theme, sourceKeys: [], events: [] });
-    }
-
-    const group = grouped.get(key);
-    if (typeof activity.sourceKey === "string" && !group.sourceKeys.includes(activity.sourceKey)) {
-      group.sourceKeys.push(activity.sourceKey);
-    }
-
-    group.events.push({
-      date: activity.date,
-      title: activity.title,
-      description: activity.description,
-      labels: activity.labels,
-      language: activity.language,
-      sizeBucket: activity.sizeBucket,
-    });
-  }
-
-  const groups = [...grouped.values()]
-    .map((group) => ({
-      ...group,
-      events: group.events.sort((left, right) => right.date.localeCompare(left.date)),
+  return (Array.isArray(activities) ? activities : [])
+    .map((activity) => ({
+      theme: activity.labels?.length > 0
+        ? activity.labels
+        : activity.language
+          ? [activity.language]
+          : ["General engineering"],
+      sourceKeys: typeof activity.sourceKey === "string" && activity.sourceKey.length > 0
+        ? [activity.sourceKey]
+        : [],
+      events: [{
+        date: activity.date,
+        title: activity.title,
+        description: activity.description,
+        labels: activity.labels,
+        language: activity.language,
+        sizeBucket: activity.sizeBucket,
+      }],
     }))
     .sort((left, right) => right.events[0].date.localeCompare(left.events[0].date));
-
-  if (groups.length <= 7) {
-    return groups;
-  }
-
-  const retained = groups.slice(0, 6);
-  const remainder = groups.slice(6).flatMap(({ events }) => events);
-  const remainderSourceKeys = groups.slice(6).flatMap(({ sourceKeys }) => sourceKeys);
-  retained.push({
-    theme: ["General engineering"],
-    sourceKeys: remainderSourceKeys,
-    events: remainder.sort((left, right) => right.date.localeCompare(left.date)),
-  });
-
-  return retained;
 };
