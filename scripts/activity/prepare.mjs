@@ -7,6 +7,7 @@ import { extractGithubActivity } from "./github.mjs";
 import { buildSummarizerInput, groupIdForIndex } from "./model.mjs";
 import { buildPrivateTerms, readActivityConfig } from "./config.mjs";
 import { createActivityStateStore } from "./state.mjs";
+import { earliestActivityDate, isCalendarDate } from "./contract.mjs";
 
 const readExistingArtifact = () => {
   const artifactPath = join(process.cwd(), "public", "data", "recent-work.json");
@@ -36,6 +37,15 @@ const hasCurrentArtifactItems = (artifact, asOf) => {
     const date = new Date(`${item.date}T00:00:00Z`);
     return !Number.isNaN(date.getTime()) && date >= currentEarliest && date <= new Date(`${asOf}T00:00:00Z`);
   });
+};
+
+const isArtifactStale = (artifact, asOf) => {
+  const earliestDate = earliestActivityDate(asOf);
+
+  return Boolean(artifact)
+    && isCalendarDate(asOf)
+    && (!isCalendarDate(artifact.updatedAt)
+      || artifact.updatedAt < earliestDate);
 };
 
 const sourceEntries = (activity) => activity
@@ -75,9 +85,10 @@ export const prepareActivityInput = async ({
     token: config.githubToken,
   });
   const state = stateStore.read();
+  const rebuildCurrentWindow = fullRefresh || isArtifactStale(existingArtifact, asOf);
   let unprocessedActivity = activity;
 
-  if (fullRefresh) {
+  if (rebuildCurrentWindow) {
     if (!state.initialized) {
       stateStore.initialize({ processed: [], asOf });
     }
@@ -98,7 +109,7 @@ export const prepareActivityInput = async ({
   const groups = aggregateRelatedActivity(unprocessedActivity);
   stateStore.writePending({
     asOf,
-    fullRefresh,
+    fullRefresh: rebuildCurrentWindow,
     groups: buildPendingRun(groups, unprocessedActivity).groups,
   });
 

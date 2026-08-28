@@ -12,15 +12,16 @@ the private allowlist filter and never become model or artifact fields.
 The workflow has three deterministic boundaries:
 
 1. `scripts/activity/prepare.mjs` fetches the private allowlist with a
-   dedicated read-only credential, removes already processed pull requests,
-   and prints only the constrained, redacted summarizer input. It never writes
-   raw activity to the repository.
+   dedicated read-only credential, removes already processed pull requests
+   during incremental runs, and prints only the constrained, redacted
+   summarizer input. A stale-window run includes the complete current window.
+   It never writes raw activity to the repository.
 2. The private state store records hashed source keys and pending group routing
    metadata outside the repository. These values are never sent to the model
    or written to the public artifact.
 3. `scripts/activity/finalize.mjs` accepts the current agent's candidate JSON,
-   validates it deterministically, preserves existing public entries, and
-   atomically writes the public artifact.
+   validates it deterministically, preserves existing public entries during
+   incremental runs, and atomically writes the public artifact.
 
 The current agent is the summarizer. No language-model provider, endpoint, or
 API key is hard-coded in the repository. The agent receives calendar dates,
@@ -28,6 +29,14 @@ opaque group routing labels, redacted PR title and description text, approved
 labels, coarse language metadata, and broad change-size buckets; it never
 receives repository names, branches, paths, filenames, URLs, source
 identifiers, exact change counts, or author identity.
+When the existing artifact is older than the rolling window, preparation
+automatically sends the whole current window for one thematic pass so related
+work across codebases can be combined; otherwise normal runs remain
+incremental.
+
+Activity is kept independently routable at the model seam. The summarizer may
+combine related events across codebases, but unrelated events remain separate
+items where the public seven-item limit allows.
 
 The model response is only a proposal. `scripts/activity/contract.mjs`
 deterministically rejects malformed, over-specific, ambiguous, denylisted, or
@@ -36,11 +45,12 @@ uncontrolled content. Public entries may use the `building`, `testing`,
 `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`.
 Rejected proposals are dropped. A failed preparation, summarization, validation,
 or finalization leaves the existing artifact unchanged because the finalizer
-writes only after validation. A successful run appends accepted items to the
-existing artifact and prunes entries outside the rolling window; it does not
-rewrite existing summaries. If there is no new activity, the existing entries
-are retained. An explicit `--full-refresh` flag is available for intentional
-regeneration.
+writes only after validation. A successful incremental run appends accepted
+items to the existing artifact and prunes entries outside the rolling window;
+it does not rewrite existing summaries. A stale-window run replaces the old
+artifact with the accepted current-window themes. If there is no new activity,
+the existing entries are retained unless the artifact itself is stale. An
+explicit `--full-refresh` flag is also available for intentional regeneration.
 
 Required local configuration is supplied through the environment and must not
 be committed:

@@ -1,23 +1,34 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-27",
+  "updatedAt": "2026-08-28",
   "items": [
     {
-      "date": "2026-08-27",
-      "type": "testing",
-      "title": "Grouped screen tests by screen",
-      "summary": "Put each screen’s tests together so they’re easier to find.",
+      "date": "2026-08-28",
+      "type": "building",
+      "title": "Built an Apple Health data flow",
+      "summary": "Connected health data from setup through review, shutdown, and recovery.",
       "tags": [
+        "Java",
         "TypeScript",
-        "Testing",
-        "Refactoring"
+        "Data"
+      ]
+    },
+    {
+      "date": "2026-08-27",
+      "type": "building",
+      "title": "Connected activity evidence to gear mileage",
+      "summary": "Collected activity, let runners review it, and kept its mileage changes consistent.",
+      "tags": [
+        "Java",
+        "TypeScript",
+        "Data"
       ]
     },
     {
       "date": "2026-08-27",
       "type": "maintaining",
-      "title": "Made screens follow one structure",
-      "summary": "Made screens follow the same structure across the app.",
+      "title": "Organised screens and their tests",
+      "summary": "Put each screen’s code and tests in the same structure so changes are easier to find.",
       "tags": [
         "TypeScript",
         "Architecture",
@@ -25,53 +36,45 @@
       ]
     },
     {
-      "date": "2026-08-25",
-      "type": "building",
-      "title": "Explained pending attribution steps",
-      "summary": "Explained how to handle pending attribution one step at a time.",
+      "date": "2026-08-22",
+      "type": "maintaining",
+      "title": "Clarified how the app’s parts work together",
+      "summary": "Kept responsibilities, data ownership, and connections between the app’s parts clearer.",
       "tags": [
-        "TypeScript"
+        "Java",
+        "Architecture",
+        "Refactoring"
       ]
     },
     {
-      "date": "2026-08-23",
+      "date": "2026-08-20",
+      "type": "maintaining",
+      "title": "Removed the old Strava paths",
+      "summary": "Removed unused provider data and tightened the remaining connection and cleanup checks.",
+      "tags": [
+        "Java",
+        "TypeScript",
+        "Refactoring"
+      ]
+    },
+    {
+      "date": "2026-08-15",
       "type": "building",
-      "title": "Asked before connecting health data",
-      "summary": "Added a setup flow that asks before connecting health data.",
+      "title": "Improved shoe matching",
+      "summary": "Made it easier to match activity to the right catalogue shoe.",
+      "tags": [
+        "Java",
+        "Data"
+      ]
+    },
+    {
+      "date": "2026-08-14",
+      "type": "maintaining",
+      "title": "Kept build dependencies up to date",
+      "summary": "Updated project dependencies and checks without changing app behavior.",
       "tags": [
         "TypeScript",
-        "Data"
-      ]
-    },
-    {
-      "date": "2026-08-23",
-      "type": "building",
-      "title": "Improved activity evidence handling",
-      "summary": "Made it easier to link activity evidence to the right gear and keep mileage current.",
-      "tags": [
-        "Java",
-        "Data"
-      ]
-    },
-    {
-      "date": "2026-08-23",
-      "type": "documenting",
-      "title": "Documented how the app is structured",
-      "summary": "Wrote down how the app’s main parts fit together.",
-      "tags": [
-        "TypeScript",
-        "Java",
-        "Architecture"
-      ]
-    },
-    {
-      "date": "2026-08-21",
-      "type": "building",
-      "title": "Reconciled collected activity",
-      "summary": "Added a way to reconcile collected activity with the backend.",
-      "tags": [
-        "Java",
-        "Data"
+        "Testing"
       ]
     }
   ]

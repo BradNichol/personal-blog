@@ -21,7 +21,10 @@ import {
   prepareActivityInput,
   readCandidateProposal,
 } from "../scripts/activity/index.mjs";
-import { createActivityStateStore } from "../scripts/activity/state.mjs";
+import {
+  createActivityStateStore,
+  sourceKeyForPullRequest,
+} from "../scripts/activity/state.mjs";
 
 const repository = "fictional-owner/allowed-service";
 const environment = {
@@ -174,6 +177,7 @@ test("prepareActivityInput only sends unseen merged pull requests after publicat
       fetchImpl,
     });
     assert.equal(first.input.groups.length, 1);
+    assert.equal(stateStore.readPending().fullRefresh, false);
 
     const pending = stateStore.readPending();
     stateStore.markProcessed(pending.groups[0].sources, "2026-08-23");
@@ -187,6 +191,86 @@ test("prepareActivityInput only sends unseen merged pull requests after publicat
       fetchImpl,
     });
     assert.equal(second.input.groups.length, 0);
+    assert.equal(stateStore.readPending().fullRefresh, false);
+  } finally {
+    rmSync(stateDirectory, { recursive: true, force: true });
+  }
+});
+
+test("prepareActivityInput rebuilds a stale artifact from the complete current window", async () => {
+  const stateDirectory = mkdtempSync(join(tmpdir(), "recent-work-stale-refresh-"));
+  const stateStore = createActivityStateStore({
+    ...environment,
+    ACTIVITY_STATE_FILE: join(stateDirectory, "state.json"),
+  });
+  stateStore.initialize({
+    processed: [{
+      key: sourceKeyForPullRequest(repository, 254),
+      date: "2026-08-27",
+    }],
+    asOf: "2026-08-27",
+  });
+
+  try {
+    const prepared = await prepareActivityInput({
+      asOf: "2026-08-28",
+      env: environment,
+      stateStore,
+      existingArtifact: {
+        version: 1,
+        updatedAt: "2026-06-28",
+        items: [safeCandidate],
+      },
+      fetchImpl: async () => ({
+        ok: true,
+        async json() {
+          return [{
+            number: 254,
+            user: { login: "bradley" },
+            base: { ref: "master", repo: { language: "TypeScript" } },
+            merged_at: "2026-08-27T13:50:14Z",
+            title: "Mirrored screen test structure",
+            body: "Grouped related screen tests with the screen implementation.",
+            labels: [],
+          }];
+        },
+      }),
+    });
+
+    assert.equal(prepared.input.groups.length, 1);
+    assert.equal(stateStore.readPending().fullRefresh, true);
+    assert.equal(stateStore.readPending().groups[0].sources.length, 1);
+
+    const artifact = finalizeActivityFromEnvironment({
+      asOf: "2026-08-28",
+      candidates: [{
+        groupIds: [stateStore.readPending().groups[0].groupId],
+        date: "2026-08-27",
+        type: "maintaining",
+        title: "Grouped screen test structure",
+        summary: "Kept related screen tests together.",
+        tags: ["TypeScript", "Testing", "Refactoring"],
+      }],
+      env: {
+        ...environment,
+        ACTIVITY_STATE_FILE: join(stateDirectory, "state.json"),
+      },
+      existingArtifact: {
+        version: 1,
+        updatedAt: "2026-06-28",
+        items: [safeCandidate],
+      },
+      stateStore,
+      writeArtifact: () => {},
+    });
+
+    assert.deepEqual(artifact.items, [{
+      date: "2026-08-27",
+      type: "maintaining",
+      title: "Grouped screen test structure",
+      summary: "Kept related screen tests together.",
+      tags: ["TypeScript", "Testing", "Refactoring"],
+    }]);
   } finally {
     rmSync(stateDirectory, { recursive: true, force: true });
   }

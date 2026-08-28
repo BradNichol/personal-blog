@@ -7,7 +7,10 @@ const SAFE_LANGUAGE_PATTERN = /^[A-Za-z][A-Za-z0-9+#.-]{0,30}$/u;
 export const groupIdForIndex = (index) => `group-${index + 1}`;
 
 export const MODEL_INSTRUCTIONS = "Return a JSON object with an items array. "
-  + "Group related events into three to seven simple building themes when the source supports it. "
+  + "Group related events into simple building themes when the source supports it, including related work across codebases. "
+  + "When events are not clearly part of the same outcome, keep them as separate themes rather than forcing a connection. "
+  + "The supplied groups are independently routable work items, so unrelated events may remain one item per pull request. "
+  + "Return no more than seven items because that is the public feed limit. "
   + "Each output item must include groupIds containing the supplied groupId values it summarises, copied exactly. "
   + "Every supplied groupId should be covered by one item, although one item may cover related groups. "
   + "Write for a general reader in plain English: describe what changed and why it matters in one short sentence. "

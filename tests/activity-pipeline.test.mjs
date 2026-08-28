@@ -57,6 +57,10 @@ test("summarizer instructions require plain-language outcomes", () => {
   assert.match(MODEL_INSTRUCTIONS, /plain English/u);
   assert.match(MODEL_INSTRUCTIONS, /concrete verbs/u);
   assert.match(MODEL_INSTRUCTIONS, /Avoid buzzwords/u);
+  assert.match(MODEL_INSTRUCTIONS, /across codebases/u);
+  assert.match(MODEL_INSTRUCTIONS, /separate themes/u);
+  assert.match(MODEL_INSTRUCTIONS, /one item per pull request/u);
+  assert.match(MODEL_INSTRUCTIONS, /seven items/u);
   assert.match(MODEL_INSTRUCTIONS, /groupIds/u);
 });
 
@@ -158,7 +162,7 @@ test("selectEligiblePullRequests keeps only authored, merged, allowlisted master
   assert.equal("changedFiles" in selected[0], false);
 });
 
-test("aggregateRelatedActivity keeps source routing separate from event details", () => {
+test("aggregateRelatedActivity keeps each pull request independently routable", () => {
   const relatedActivity = {
     ...eligibleSource[0],
     title: "Strengthened streamed processing boundaries",
@@ -173,11 +177,48 @@ test("aggregateRelatedActivity keeps source routing separate from event details"
     repositoryAllowlist: ["fictional-service"],
   }));
 
-  assert.equal(groups.length, 2);
-  assert.deepEqual(groups[0].events.map(({ date }) => date), ["2026-08-23", "2026-08-22"]);
+  assert.equal(groups.length, 3);
+  assert.deepEqual(groups[0].events.map(({ date }) => date), ["2026-08-23"]);
   assert.deepEqual(groups[0].theme, ["Architecture"]);
   assert.equal("repository" in groups[0].events[0], false);
   assert.equal("authorLogin" in groups[0].events[0], false);
+});
+
+test("aggregateRelatedActivity does not force same-language events into one theme", () => {
+  const groups = aggregateRelatedActivity(selectEligiblePullRequests([
+    {
+      ...eligibleSource[0],
+      title: "Reworked provider cleanup",
+    },
+    {
+      ...eligibleSource[0],
+      title: "Updated account settings",
+      mergedAt: "2026-08-22T09:00:00Z",
+    },
+  ], {
+    asOf: "2026-08-23",
+    authorLogin: "bradley",
+    repositoryAllowlist: ["fictional-service"],
+  }));
+
+  assert.equal(groups.length, 2);
+  assert.deepEqual(groups.map(({ events }) => events.length), [1, 1]);
+});
+
+test("aggregateRelatedActivity keeps all independent work available to the model", () => {
+  const activities = Array.from({ length: 8 }, (_, index) => ({
+    ...eligibleSource[0],
+    title: `Independent work ${index + 1}`,
+    mergedAt: `2026-08-${String(23 - index).padStart(2, "0")}T09:00:00Z`,
+  }));
+  const groups = aggregateRelatedActivity(selectEligiblePullRequests(activities, {
+    asOf: "2026-08-23",
+    authorLogin: "bradley",
+    repositoryAllowlist: ["fictional-service"],
+  }));
+
+  assert.equal(groups.length, 8);
+  assert.deepEqual(groups.map(({ events }) => events.length), [1, 1, 1, 1, 1, 1, 1, 1]);
 });
 
 test("buildSummarizerInput exposes only the constrained model boundary", () => {

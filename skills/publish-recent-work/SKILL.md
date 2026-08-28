@@ -35,8 +35,10 @@ missing, stop and report the missing variable.
    scripts/activity/run-with-config.sh node scripts/activity/prepare.mjs --as-of YYYY-MM-DD
    ```
 
-   Normal runs are incremental. Use `--full-refresh` only when an intentional
-   regeneration of the complete rolling window is wanted.
+   Normal runs are incremental while the current artifact is still inside the
+   rolling window. If the artifact is stale, preparation automatically rebuilds
+   the complete current window in one thematic pass. Use `--full-refresh` when
+   an intentional regeneration is wanted regardless of artifact age.
 
    Treat the JSON printed by this command as the only model input. It contains the summarization instructions and already-redacted, constrained activity. Do not inspect, save, or echo raw GitHub responses.
 
@@ -47,7 +49,7 @@ missing, stop and report the missing variable.
    {"items":[{"groupIds":["group-1"],"date":"YYYY-MM-DD","type":"testing","title":"...","summary":"...","tags":["..."]}]}
    ```
 
-   Copy each opaque `groupId` from the prepared input into the item that summarises that group. Every prepared group should be covered once; one item may cover multiple closely related groups. `groupIds` are routing metadata and are removed before publication. Choose `building` for product changes, `testing` for test work, `maintaining` for refactoring or quality work, and `documenting` for documentation. Use completed, neutral, plain language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags: `Architecture`, `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`. Treat the validator as final authority.
+   Copy each opaque `groupId` from the prepared input into the item that summarises that group. Every prepared group should be covered once; one item may cover multiple closely related groups, including across codebases. If groups are not clearly related, keep them as separate items. `groupIds` are routing metadata and are removed before publication. Choose `building` for product changes, `testing` for test work, `maintaining` for refactoring or quality work, and `documenting` for documentation. Use completed, neutral, plain language. Do not invent details, identifiers, counts, links, paths, filenames, branches, repository names, or private terms. Use only approved tags: `Architecture`, `Data`, `Java`, `TypeScript`, `Testing`, and `Refactoring`. Treat the validator as final authority.
 
 5. Write the candidate JSON to a temporary file outside the repository. Do not commit or leave candidate, prompt, or prepared-input files in the repository.
 6. Run:
@@ -56,7 +58,11 @@ missing, stop and report the missing variable.
    scripts/activity/run-with-config.sh node scripts/activity/finalize.mjs --as-of YYYY-MM-DD --candidates-file /path/outside/repository/candidates.json
    ```
 
-   This validates the response, preserves existing items, appends accepted new items, and atomically writes `public/data/recent-work.json`. A non-zero exit means no publication is authorized. If there is no new activity, the existing artifact is retained.
+   This validates the response, preserves existing items during incremental
+   runs, replaces a stale artifact with the accepted current-window themes, and
+   atomically writes `public/data/recent-work.json`. A non-zero exit means no
+   publication is authorized. If there is no new activity, the existing
+   entries are retained unless the artifact is stale.
 7. Confirm the only repository change is `public/data/recent-work.json`, then run the relevant tests. Commit only when the user or the invoking automation explicitly authorizes that side effect:
 
    ```bash
