@@ -1,7 +1,58 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-28",
+  "updatedAt": "2026-09-04",
   "items": [
+    {
+      "date": "2026-09-04",
+      "type": "building",
+      "title": "Made Gear belong directly to the user",
+      "summary": "Simplified Gear so its identity is stable and no longer depends on outside-service details.",
+      "tags": [
+        "Data",
+        "Java",
+        "TypeScript"
+      ]
+    },
+    {
+      "date": "2026-09-03",
+      "type": "building",
+      "title": "Reworked Gear mileage history",
+      "summary": "Based Gear history and totals on activity records and a manual starting distance.",
+      "tags": [
+        "Data",
+        "Java"
+      ]
+    },
+    {
+      "date": "2026-09-03",
+      "type": "maintaining",
+      "title": "Removed unused account sync code",
+      "summary": "Removed old connection and remote-sync pieces that are no longer needed.",
+      "tags": [
+        "Architecture",
+        "Java",
+        "Refactoring"
+      ]
+    },
+    {
+      "date": "2026-09-02",
+      "type": "testing",
+      "title": "Improved user history checks",
+      "summary": "Improved the checks around user history.",
+      "tags": [
+        "Java",
+        "Testing"
+      ]
+    },
+    {
+      "date": "2026-08-30",
+      "type": "maintaining",
+      "title": "Updated supporting app code",
+      "summary": "Kept supporting app code aligned with the current behavior.",
+      "tags": [
+        "TypeScript"
+      ]
+    },
     {
       "date": "2026-08-28",
       "type": "building",
@@ -14,67 +65,14 @@
       ]
     },
     {
-      "date": "2026-08-27",
+      "date": "2026-08-28",
       "type": "building",
-      "title": "Connected activity evidence to gear mileage",
-      "summary": "Collected activity, let runners review it, and kept its mileage changes consistent.",
+      "title": "Clarified Apple Health connection status",
+      "summary": "Made Apple Health status reflect whether a user is enrolled, keeping the flow easier to understand.",
       "tags": [
+        "Data",
         "Java",
-        "TypeScript",
-        "Data"
-      ]
-    },
-    {
-      "date": "2026-08-27",
-      "type": "maintaining",
-      "title": "Organised screens and their tests",
-      "summary": "Put each screen’s code and tests in the same structure so changes are easier to find.",
-      "tags": [
-        "TypeScript",
-        "Architecture",
-        "Refactoring"
-      ]
-    },
-    {
-      "date": "2026-08-22",
-      "type": "maintaining",
-      "title": "Clarified how the app’s parts work together",
-      "summary": "Kept responsibilities, data ownership, and connections between the app’s parts clearer.",
-      "tags": [
-        "Java",
-        "Architecture",
-        "Refactoring"
-      ]
-    },
-    {
-      "date": "2026-08-20",
-      "type": "maintaining",
-      "title": "Removed the old Strava paths",
-      "summary": "Removed unused provider data and tightened the remaining connection and cleanup checks.",
-      "tags": [
-        "Java",
-        "TypeScript",
-        "Refactoring"
-      ]
-    },
-    {
-      "date": "2026-08-15",
-      "type": "building",
-      "title": "Improved shoe matching",
-      "summary": "Made it easier to match activity to the right catalogue shoe.",
-      "tags": [
-        "Java",
-        "Data"
-      ]
-    },
-    {
-      "date": "2026-08-14",
-      "type": "maintaining",
-      "title": "Kept build dependencies up to date",
-      "summary": "Updated project dependencies and checks without changing app behavior.",
-      "tags": [
-        "TypeScript",
-        "Testing"
+        "TypeScript"
       ]
     }
   ]
